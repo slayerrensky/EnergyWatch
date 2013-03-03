@@ -36,6 +36,7 @@
 		<div id="navi">
 			<?= $navigation ?>
 		</div>
+		<div class="clear"></div>
 		<div id="content">
 			<?= $content ?>
 		</div>

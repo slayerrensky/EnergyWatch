@@ -12,8 +12,7 @@ left: 0em;
 }
 
 div#header
-	{
-		position: absolute;
+	{	
 		background: #ADC3DA;
 		height: 6em;	
 		width: 100%;
@@ -21,45 +20,40 @@ div#header
 		text-align:center;  */
 		text-align:left;
 		text-indent:130px;
-		top: 0;
 		border-bottom-right-radius: 10px;
 		border-top-right-radius: 10px;
 		text-decoration:none; 
 		color:#525252; 
 		/*font-family:Verdana,Tahoma,Arial,sans-serif; */
-		font-variant:	small-caps; 
-		
+		font-variant:	small-caps; 	
 	}
 
-div#h1
-{
-	margin: 6em;
-	
-}
+
 #logoutButton
 {
-	position: absolute;
+
 	right: 1em;
 	bottom: 1em;
 	
 }
 
 div#navi {
-	width: 17%;
-	float: left; 
+	height: 16px;
+	position: relative;
+}
+
+.clear {
+    clear: both;
 }
 
 div#content 
-	{
+{
 	border: none;
-	position: absolute;
-	top: 6em;
-	left: 19%;
-	width: 80%;
+	
+	top: 15em;
+	width: 100%;
 	height: auto;
-	float:left;
-
-	}
+}
 	
 div#acInfo {
 	right: 1em;
