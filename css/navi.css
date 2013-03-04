@@ -1,4 +1,4 @@
-
+/*
 a {text-decoration:none; color:#000000;}
 
 #menu ul {margin:0px; padding:0px; list-style-type:none;}
@@ -8,3 +8,97 @@ a {text-decoration:none; color:#000000;}
 #menu li ul li {background-color:#2F2D49; border-bottom:1px solid #FFFFFF;}
 #menu li ul li a{color:#FFFFFF;}
 #menu li ul li:hover {background-color:#232323;}
+*/
+
+
+/* Vertical Navigation */
+#vertical-navigation { 
+	list-style: none; 
+	margin: 0; 
+	padding: 0;
+	font-size: 16px;
+	float: left;
+	position: relative;
+	z-index: 2;}
+
+
+/* CSS for each Parent Item */
+#vertical-navigation li {float: left; position: relative;}
+
+#vertical-navigation li a
+{
+	float: left;
+	display: block;
+	padding: 4px;
+	text-decoration: none;
+	color: #666;
+	/*text-transform: uppercase;*/
+	margin-right: 10px;
+}
+
+/* 
+Change background color and font color 
+of parent items when mouse hover 
+*/
+#vertical-navigation li:hover a,
+#vertical-navigation li a:hover
+{
+	background: #999;
+	color: #fff;
+}
+
+/* 
+Applie to group of Child Items
+Each Child Item will be invisible by default
+*/
+#vertical-navigation ul {display: none;}
+
+/* Each Child Item will be visible if mouse hover */
+#vertical-navigation li:hover ul {display: block;}
+
+#vertical-navigation ul
+{
+	float: none;
+	position: absolute;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	top: 1.8em;
+	left: 0;
+	width: 20em;
+}
+
+#vertical-navigation ul li
+{
+	float: none;
+	clear: none;
+	margin: 0;
+	padding-left: 5px ;
+	width: 20em;
+	color: #525252;
+	background-color: #ADC3DA;
+}
+
+
+/* 
+Reset and re style 
+link of each child item
+*/
+#vertical-navigation li:hover ul li a,
+#vertical-navigation ul li a
+{
+	line-height: 200%;
+	display: block;
+	padding: 0 6px 0 0;
+	float: none;
+	text-transform: lowercase;
+	color: #999;
+	background: none;
+}
+
+#vertical-navigation li:hover ul li a:hover,
+#vertical-navigation ul li a:hover
+{
+	background: none;
+	color: #000;
+}

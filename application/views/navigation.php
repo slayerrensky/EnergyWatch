@@ -1,4 +1,4 @@
-<ul id="menu">
+<ul id="vertical-navigation">
 	
 	<li><a class="u3" href="<?php echo site_url("main/index"); ?>">Hauptseite</a></li>
 	<li><a class="u1">Z&auml;hler</a>
