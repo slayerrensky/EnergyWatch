@@ -49,8 +49,8 @@ div#navi {
 div#content 
 {
 	border: none;
-	
-	top: 15em;
+	margin: 3em 1em 1em 1em;
+	top: 20em;
 	width: 100%;
 	height: auto
 	z-index: 1;

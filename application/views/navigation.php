@@ -1,4 +1,5 @@
-<ul id="vertical-navigation">
+<nav>
+<ul id="nav">
 	
 	<li><a class="u3" href="<?php echo site_url("main/index"); ?>">Hauptseite</a></li>
 	<li><a class="u1">Z&auml;hler</a>
@@ -33,3 +34,4 @@
 	</li>
 	<?php } ?>
 </ul>
+</nav>

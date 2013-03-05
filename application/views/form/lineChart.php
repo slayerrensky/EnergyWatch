@@ -172,15 +172,13 @@ function addMeterInView()
 	$("#f"+anzahl).append('KW ');
 	
 	// KWs ermitteln und in combo einfügen
+	var kw = GetLastKwFromJear(jahr);
 	$("#f"+anzahl).append('<select name=Jahr" id="combokw' + anzahl + '" ></select>');
-	for (var i=1; i<GetLastKwFromJear(jahr); i++)
+	for (var i=1; i<=kw; i++)
 	{
 		$("#combokw"+anzahl).append('<option value="'+i+'">'+i+'</option>')
 	}
 	
-	$("#f"+anzahl).append('<input type="text" id="datebis'+anzahl+'"  value="'+nowstr+'"  />');
-	//new Epoch('epoch_popup','popup',document.getElementById('datevon'+anzahl));
-	//new Epoch('epoch_popup','popup',document.getElementById('datebis'+anzahl));
 	$("#f"+anzahl).append('<input type="button" value="-" onclick="delmeter('+anzahl+')" />');
 	anzahl++;
 }

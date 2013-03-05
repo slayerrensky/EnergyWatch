@@ -22,8 +22,8 @@ function GetLastKwFromJear(jahr)
 {
 	var i=31;
 	var date =new Date(jahr, 11, i);
-	var kw = 
-	while(1<=(kw=GetKwFromDate(date)));
+	//var kw = GetKwFromDate(date);
+	while(1>=(kw=GetKwFromDate(date)))
 	{
 		i--;
 		date =new Date(jahr, 11, i);

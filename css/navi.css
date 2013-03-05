@@ -102,3 +102,71 @@ link of each child item
 	background: none;
 	color: #000;
 }
+
+
+nav {
+    margin: 0px;
+    /*text-align: center;*/
+   z-index: 2;
+}
+nav ul ul {
+    display: none;
+}
+nav ul li:hover > ul {
+    display: block;
+}
+nav ul {
+    background: -moz-linear-gradient(center top , #EFEFEF 0%, #BBBBBB 100%) repeat scroll 0 0 transparent;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 0 0 9px rgba(0, 0, 0, 0.15);
+    display: inline-table;
+    list-style: none outside none;
+    padding: 0 5px;
+    position: relative;
+}
+nav ul:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+nav ul li {
+    float: left;
+}
+nav ul li:hover {
+    background: -moz-linear-gradient(center top , #4F5964 0%, #5F6975 40%) repeat scroll 0 0 transparent;
+}
+nav ul li:hover a {
+    color: #FFFFFF;
+}
+nav ul li a {
+    color: #757575;
+    display: block;
+    padding: 3px 10px;
+    text-decoration: none;
+}
+nav ul ul {
+    background: none repeat scroll 0 0 #5F6975;
+    border-radius: 0 0 0 0;
+    padding: 0;
+    position: absolute;
+    top: 100%;
+}
+nav ul ul li {
+    border-bottom: 1px solid #575F6A;
+    border-top: 1px solid #6B727C;
+    float: none;
+    position: relative;
+    width:20em;
+}
+nav ul ul li a {
+    color: #FFFFFF;
+    padding: 3px 10px;
+}
+nav ul ul li a:hover {
+    background: none repeat scroll 0 0 #4B545F;
+}
+nav ul ul ul {
+    left: 100%;
+    position: absolute;
+    top: 0;
+}
