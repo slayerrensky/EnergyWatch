@@ -5,6 +5,7 @@
 <script type="text/javascript" src="<?php echo $url?>epoch_classes.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/highstock.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/modules/exporting.js"></script>
+<script type="text/javascript" src="<?php echo $url?>kalenderwoche.js"></script>
 
 		
 <script type="text/javascript">
@@ -146,25 +147,46 @@ function drawChart(){
 var anzahl = 1;
 function addMeterInView()
 {
+	var jahr;
 	var meter = getJson("<?php echo base_url(); ?>index.php/data/getMeter/1");
 	
 	$("#config").append('<form id="f'+ (anzahl) +'" class="FormArray">');
-	$("#f"+anzahl).append('<select name=mytextarea" id="combo' + anzahl + '" ></select>');
+	$("#f"+anzahl).append('<select name=KW" id="combo' + anzahl + '" ></select>');
 	for (var i=0,l = meter.length; i<l; i++)
 	{
 		$("#combo"+anzahl).append('<option value="'+meter[i].ID+'">'+meter[i].Name+'</option>')
 	}
-	$("#f"+anzahl).append('Datum: von');
+	$("#f"+anzahl).append('Jahr ');
 	var now = new Date();
 	var nowstr = now.getFullYear()+"/"+now.getMonth()+"/"+now.getDay();
-	$("#f"+anzahl).append('<input type="text" id="datevon'+anzahl+'" value="'+nowstr+'"  />');
-	$("#f"+anzahl).append('Datum: bis');
+	
+	// Jahre ermitteln und in combo einfügen
+	$("#f"+anzahl).append('<select name=Jahr" id="combojahr' + anzahl + '" ></select>');
+	for (var i=2000; i<now.getFullYear(); i++)
+	{
+		$("#combojahr"+anzahl).append('<option value="'+i+'">'+i+'</option>')
+		jahr = i;
+	}
+	
+	//$("#f"+anzahl).append('<input type="text" id="datevon'+anzahl+'" value="'+nowstr+'"  />');
+	$("#f"+anzahl).append('KW ');
+	
+	// KWs ermitteln und in combo einfügen
+	$("#f"+anzahl).append('<select name=Jahr" id="combokw' + anzahl + '" ></select>');
+	for (var i=1; i<GetLastKwFromJear(jahr); i++)
+	{
+		$("#combokw"+anzahl).append('<option value="'+i+'">'+i+'</option>')
+	}
+	
 	$("#f"+anzahl).append('<input type="text" id="datebis'+anzahl+'"  value="'+nowstr+'"  />');
-	new Epoch('epoch_popup','popup',document.getElementById('datevon'+anzahl));
-	new Epoch('epoch_popup','popup',document.getElementById('datebis'+anzahl));
+	//new Epoch('epoch_popup','popup',document.getElementById('datevon'+anzahl));
+	//new Epoch('epoch_popup','popup',document.getElementById('datebis'+anzahl));
 	$("#f"+anzahl).append('<input type="button" value="-" onclick="delmeter('+anzahl+')" />');
 	anzahl++;
 }
+
+
+
 
 function delmeter(id)
 {
