@@ -105,15 +105,17 @@ link of each child item
 
 
 nav {
-    margin: 0px;
+    margin-left: 1em;
     /*text-align: center;*/
    z-index: 2;
 }
 nav ul ul {
     display: none;
+    z-index: 2;
 }
 nav ul li:hover > ul {
     display: block;
+;
 }
 nav ul {
     background: -moz-linear-gradient(center top , #EFEFEF 0%, #BBBBBB 100%) repeat scroll 0 0 transparent;
@@ -123,6 +125,7 @@ nav ul {
     list-style: none outside none;
     padding: 0 5px;
     position: relative;
+    z-index: 2;
 }
 nav ul:after {
     clear: both;

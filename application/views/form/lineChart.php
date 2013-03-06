@@ -161,10 +161,11 @@ function addMeterInView()
 	var nowstr = now.getFullYear()+"/"+now.getMonth()+"/"+now.getDay();
 	
 	// Jahre ermitteln und in combo einfügen
-	$("#f"+anzahl).append('<select name=Jahr" id="combojahr' + anzahl + '" ></select>');
+	$("#f"+anzahl).append('<select name=Jahr" id="combojahr' + anzahl + 
+					'" onchange="updateKW('+combokw+anzahl')"></select>');
 	for (var i=2000; i<now.getFullYear(); i++)
 	{
-		$("#combojahr"+anzahl).append('<option value="'+i+'">'+i+'</option>')
+		$("#combojahr"+anzahl).append('<option value="'+i+'">'+i+' </option>')
 		jahr = i;
 	}
 	
@@ -183,7 +184,18 @@ function addMeterInView()
 	anzahl++;
 }
 
-
+function updateKW(objid)
+{
+	
+	$("#objid option[value='option1']").remove();
+	// KWs ermitteln und in combo einfügen
+	var kw = GetLastKwFromJear(jahr);
+	$("#f"+anzahl).append('<select name=Jahr" id="combokw' + anzahl + '" ></select>');
+	for (var i=1; i<=kw; i++)
+	{
+		$("#combokw"+anzahl).append('<option value="'+i+'">'+i+'</option>')
+	}
+} 
 
 
 function delmeter(id)

@@ -25,21 +25,21 @@ div#header
 		text-decoration:none; 
 		color:#525252; 
 		/*font-family:Verdana,Tahoma,Arial,sans-serif; */
-		font-variant:	small-caps; 	
+		font-variant:	small-caps;
+		position: absolute; 	
 	}
+
 
 
 #logoutButton
 {
-
 	right: 1em;
-	bottom: 1em;
-	
+	bottom: 1em;	
 }
 
 div#navi {
-	height: 16px;
-	position: relative;
+	position: absolute;
+	top: 6.5em;
 }
 
 .clear {
@@ -49,11 +49,12 @@ div#navi {
 div#content 
 {
 	border: none;
-	margin: 3em 1em 1em 1em;
-	top: 20em;
+	margin: 1em 1em 1em 1em;
+	top: 9em;
 	width: 100%;
 	height: auto
 	z-index: 1;
+	position: absolute;
 }
 	
 div#acInfo {
