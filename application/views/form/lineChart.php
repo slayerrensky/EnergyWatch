@@ -20,9 +20,12 @@ $(document).ready(function() {
 
 var chart;
 
-function drawLineChart(id,from,to) {
-var numberOfValues;
 
+function drawLineChart(id,from,to) {
+var numberOfValues = 0;
+var arbeit = 0;
+
+$("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.gif" alt="Loading"></p>');
 
 	function MeterValues(id,from,to){
 		var series = new Array();
@@ -30,39 +33,53 @@ var numberOfValues;
 		{
 			var MeterDaten = getJson("<?php echo base_url(); ?>index.php/data/getDataFromMeter/"+id[i]);
 			series.push({
+		     	tooltip: {
+		    		valueDecimals: 3
+		       	},
 		     	name: MeterDaten.Name+" ("+MeterDaten.Unit+")",
+		     	
 		        data: (function() {
 		            var data = [];
 		            var daten = getValues(id[i],from,to,"<?php echo base_url(); ?>");
-		               
 		            for (var k=0,l = daten.length; k<l; k++)
 		            {
+		            	if (id[i] ==9)
+		            	{
+		            		arbeit+=daten[k].Value/12;
+		            	}
 			          	data.push({
 				            x: daten[k].TimeStamp,
 			    	        y: daten[k].Value
 			            });
 			        }
-			        numberOfValues = daten.length;
+			        numberOfValues += daten.length;
 			        return data;
 		        })(),
 		        turboThreshold: numberOfValues,
 			});
 		}
+		//alert(numberOfValues);
 		return series;
 	};
 	
-	chart = new Highcharts.Chart({
+	chart = new Highcharts.StockChart({
 		chart: {
 	    	renderTo: 'container',
 	        type: 'spline',
 	        //inverted: false,
 	        //width: 500,
+	        height:550,
 	        style: {
 	        	margin: '0 auto'
 	        }
 	    },
+	    
+		rangeSelector: {
+			selected: 0,
+		    enabled: false
+		},
 	    title: {
-	    	text: "MultiChart"
+	    	text: "Gesamtübersicht"
 	    },
 	    subtitle: {
 	    	text: ""
@@ -72,7 +89,7 @@ var numberOfValues;
 			//maxZoom: 14 * 24 * 3600000, // fourteen days
 	        title: {
 	        	enabled: true,
-	            text: 'Timestamp'
+	            text: 'Datum / Uhrzeit'
 	        }
 	    },
 	    yAxis: {
@@ -83,11 +100,20 @@ var numberOfValues;
 	    },
 	    legend: {
 	    	enabled: true,
-	    	
+	    	align: 'right',
+        	borderColor: 'black',
+        	borderWidth: 2,
+	    	layout: 'vertical',
+	    	verticalAlign: 'top',
+	    	y: 25,
+	    	shadow: true
 	    },
 		tooltip: {
 			shared: true
-		}, 
+		},
+		credits: {
+            enabled: false
+        }, 
 	    plotOptions: {
 	    	spline: {
 	        	marker: {
@@ -103,9 +129,31 @@ var numberOfValues;
 	    },
         series: MeterValues(id,from,to)
 	});
+	
+	
+/*	var legegndx = chart.legend.group.translateX;
+	var pRx = legegndx; //chart.chartWidth - 210;
+    var pRy = 250
 
+    var Mma = getJson("<?php echo base_url(); ?>index.php/data/getAreaValuesmma/"+9+"/"+from+"/"+to);
+    var max = runde(Mma[0].Max,3);
+    var min = runde(Mma[0].Min,3);
+    var avg = runde(Mma[0].Avg,3);
+    chart.renderer.label('Gesamtverbrauch: <br>Max: '+max+' kW<br>Min: '+min+' kW<br>Durchschnitt: '+avg+' kW<br>Arbeit: '+ runde(arbeit,3) +' kWh', pRx+5, pRy-5)
+    	.attr({
+        	//fill: colors[0],
+            stroke: 'black',
+            'stroke-width': 2,
+            padding: 5,
+            r: 5
+        })
+        .css({
+        	color: 'black',
+            width: '200px'
+        })
+        .add()
+*/
 }
-
 
 
 function addItem()
@@ -128,19 +176,20 @@ function drawChart(){
 	var elemnetlist = document.getElementsByClassName('FormArray');
 	
 	var ID = new Array();
-	var StartTS;
-	var EndTS;
 	for(var i = 0; i < elemnetlist.length;i++)
 	{
 		ID.push(elemnetlist[i][0].value);
-		StartTS = elemnetlist[i][1].value;
-		EndTS = elemnetlist[i][2].value;
+		jahr = elemnetlist[i][1].value;
+		kw = elemnetlist[i][2].value;
 	}
 	
-	//var selObj = document.getElementById('combo');
-	//var selIndex = selObj.selectedIndex;
-	var timeVon = dp2dateTS(StartTS,'00:00:00');
-	var timeBis = dp2dateTS(EndTS,'23:59:59');
+	var StartTS = GetDateFromKw(jahr,kw);
+	var EndTS = new Date(StartTS);
+	EndTS.setDate(EndTS.getDate() + 6);
+	
+	var timeVon = StartTS.getFullYear()+"-"+(StartTS.getMonth()+1)+"-"+StartTS.getDate()+' 00:00:00';
+	var timeBis = EndTS.getFullYear()+"-"+(EndTS.getMonth()+1)+"-"+EndTS.getDate()+' 23:59:59';
+	
 	drawLineChart(ID,timeVon,timeBis);
 }
 
@@ -161,20 +210,23 @@ function addMeterInView()
 	var nowstr = now.getFullYear()+"/"+now.getMonth()+"/"+now.getDay();
 	
 	// Jahre ermitteln und in combo einfügen
-	$("#f"+anzahl).append('<select name=Jahr" id="combojahr' + anzahl + 
-					'" onchange="updateKW('+combokw+anzahl')"></select>');
-	for (var i=2000; i<now.getFullYear(); i++)
+	$("#f"+anzahl).append('<select name=Jahr" id="combojahr' + anzahl + '" onchange="updateKW(\'combokw'+anzahl+'\',this.value)"></select>');
+	for (var i=2000; i<=now.getFullYear(); i++)
 	{
-		$("#combojahr"+anzahl).append('<option value="'+i+'">'+i+' </option>')
-		jahr = i;
+		if (i==now.getFullYear())
+		{
+			$("#combojahr"+anzahl).append('<option value="'+i+'" selected="selected">'+i+'</option>')
+		}
+		{
+			$("#combojahr"+anzahl).append('<option value="'+i+'">'+i+' </option>')
+		}
+		
 	}
-	
-	//$("#f"+anzahl).append('<input type="text" id="datevon'+anzahl+'" value="'+nowstr+'"  />');
+
 	$("#f"+anzahl).append('KW ');
-	
 	// KWs ermitteln und in combo einfügen
-	var kw = GetLastKwFromJear(jahr);
-	$("#f"+anzahl).append('<select name=Jahr" id="combokw' + anzahl + '" ></select>');
+	var kw = GetLastKwFromJear(now.getFullYear());
+	$("#f"+anzahl).append('<select name="Jahr" id="combokw' + anzahl + '" ></select>');
 	for (var i=1; i<=kw; i++)
 	{
 		$("#combokw"+anzahl).append('<option value="'+i+'">'+i+'</option>')
@@ -184,24 +236,19 @@ function addMeterInView()
 	anzahl++;
 }
 
-function updateKW(objid)
+function updateKW(objid,jahr)
 {
-	
-	$("#objid option[value='option1']").remove();
-	// KWs ermitteln und in combo einfügen
+	$("#"+objid).children().remove();
 	var kw = GetLastKwFromJear(jahr);
-	$("#f"+anzahl).append('<select name=Jahr" id="combokw' + anzahl + '" ></select>');
 	for (var i=1; i<=kw; i++)
 	{
-		$("#combokw"+anzahl).append('<option value="'+i+'">'+i+'</option>')
+		$("#"+objid).append('<option value="'+i+'">'+i+'</option>')
 	}
 } 
 
-
 function delmeter(id)
 {
-	$("#f"+id).remove();
-	
+	$("#f"+id).remove();	
 }
 
 </script>
@@ -217,8 +264,4 @@ function delmeter(id)
 
 </div>
 
-<p>Minimalwert</p>
-<p>Mittelwert</p>
-<p>Maximalwert</p>
-<p>Arbeit</p>
 

@@ -29,5 +29,20 @@ function GetLastKwFromJear(jahr)
 		date =new Date(jahr, 11, i);
 	}
 	return kw;
+}
 
+function GetDateFromKw(jahr,kw)
+{
+	var date = new Date(jahr,0,1);
+	
+	while(GetKwFromDate(date)>1)
+	{
+		date.setDate(date.getDate() + 1);
+	}
+	
+	while(GetKwFromDate(date)<kw)
+	{
+		date.setDate(date.getDate() + 1);
+	}
+	return date;
 }
