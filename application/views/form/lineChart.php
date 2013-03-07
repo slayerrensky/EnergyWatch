@@ -40,7 +40,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		     	
 		        data: (function() {
 		            var data = [];
-		            var daten = getValues(id[i],from,to,"<?php echo base_url(); ?>");
+		            var daten = getValues(id[i],from[i],to[i],"<?php echo base_url(); ?>");
 		            for (var k=0,l = daten.length; k<l; k++)
 		            {
 		            	if (id[i] ==9)
@@ -90,7 +90,14 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	        title: {
 	        	enabled: true,
 	            text: 'Datum / Uhrzeit'
-	        }
+	        },
+	        ordinal: false,
+	        dateTimeLabelFormats: { // don't display the dummy year
+                    hour: '%a, %H:%M',
+                    day: '%a, %H:%M',
+                    month: '%a, %H:%M',
+                    year: '%Y'
+            }
 	    },
 	    yAxis: {
 	    	title: {
@@ -176,20 +183,21 @@ function drawChart(){
 	var elemnetlist = document.getElementsByClassName('FormArray');
 	
 	var ID = new Array();
+	var timeVon = new Array();
+	var timeBis = new Array();
 	for(var i = 0; i < elemnetlist.length;i++)
 	{
 		ID.push(elemnetlist[i][0].value);
-		jahr = elemnetlist[i][1].value;
-		kw = elemnetlist[i][2].value;
+		var jahr = elemnetlist[i][1].value;
+		var kw = elemnetlist[i][2].value;
+
+		var StartTS = GetDateFromKw(jahr,kw);
+		var EndTS = new Date(StartTS);
+		EndTS.setDate(EndTS.getDate() + 6);
+		
+		timeVon.push(StartTS.getFullYear()+"-"+(StartTS.getMonth()+1)+"-"+StartTS.getDate()+' 00:00:00');
+		timeBis.push(EndTS.getFullYear()+"-"+(EndTS.getMonth()+1)+"-"+EndTS.getDate()+' 23:59:59');
 	}
-	
-	var StartTS = GetDateFromKw(jahr,kw);
-	var EndTS = new Date(StartTS);
-	EndTS.setDate(EndTS.getDate() + 6);
-	
-	var timeVon = StartTS.getFullYear()+"-"+(StartTS.getMonth()+1)+"-"+StartTS.getDate()+' 00:00:00';
-	var timeBis = EndTS.getFullYear()+"-"+(EndTS.getMonth()+1)+"-"+EndTS.getDate()+' 23:59:59';
-	
 	drawLineChart(ID,timeVon,timeBis);
 }
 
