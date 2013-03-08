@@ -21,7 +21,7 @@ $(document).ready(function() {
 var chart;
 
 
-function drawLineChart(id,from,to) {
+function drawLineChart(id,from,to,gets) {
 var numberOfValues = 0;
 var arbeit = 0;
 
@@ -31,16 +31,19 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		var series = new Array();
 		for (var i=0;i< id.length; i++)
 		{
-			var MeterDaten = getJson("<?php echo base_url(); ?>index.php/data/getDataFromMeter/"+id[i]);
+			var idfromget = gets[0].ID;
+			var MeterDaten = getJson("<?php echo base_url(); ?>index.php/data/getDataFromMeter/"+gets[i].ID);
 			series.push({
 		     	tooltip: {
 		    		valueDecimals: 3
 		       	},
-		     	name: MeterDaten.Name+" ("+MeterDaten.Unit+")",
+		     	name: MeterDaten.Name+" ("+MeterDaten.Unit+") " + gets[i].kw + "KW, " + gets[i].jahr ,
 		     	
 		        data: (function() {
 		            var data = [];
-		            var daten = getValues(id[i],from[i],to[i],"<?php echo base_url(); ?>");
+		            var daten = getValuesOffset(gets[i].ID,gets[i].timeVon,gets[i].timeBis,"<?php echo base_url(); ?>");
+		            //offset berechnen
+		            
 		            for (var k=0,l = daten.length; k<l; k++)
 		            {
 		            	if (id[i] ==9)
@@ -185,20 +188,31 @@ function drawChart(){
 	var ID = new Array();
 	var timeVon = new Array();
 	var timeBis = new Array();
+	var values = new Array();
+	var gets = new Array();
 	for(var i = 0; i < elemnetlist.length;i++)
 	{
 		ID.push(elemnetlist[i][0].value);
+		values = new Array();
+		values["ID"]= elemnetlist[i][0].value;
 		var jahr = elemnetlist[i][1].value;
 		var kw = elemnetlist[i][2].value;
-
+		values["jahr"]= elemnetlist[i][1].value
+		values["kw"]= elemnetlist[i][2].value
+		
 		var StartTS = GetDateFromKw(jahr,kw);
 		var EndTS = new Date(StartTS);
 		EndTS.setDate(EndTS.getDate() + 6);
 		
 		timeVon.push(StartTS.getFullYear()+"-"+(StartTS.getMonth()+1)+"-"+StartTS.getDate()+' 00:00:00');
+		values["timeVon"]= StartTS.getFullYear()+"-"+(StartTS.getMonth()+1)+"-"+StartTS.getDate()+' 00:00:00';
 		timeBis.push(EndTS.getFullYear()+"-"+(EndTS.getMonth()+1)+"-"+EndTS.getDate()+' 23:59:59');
+		values["timeBis"]= EndTS.getFullYear()+"-"+(EndTS.getMonth()+1)+"-"+EndTS.getDate()+' 23:59:59';
+		
+		gets.push(values);
 	}
-	drawLineChart(ID,timeVon,timeBis);
+	
+	drawLineChart(ID,timeVon,timeBis,gets);
 }
 
 var anzahl = 1;
