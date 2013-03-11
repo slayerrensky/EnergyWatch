@@ -37,7 +37,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		     	tooltip: {
 		    		valueDecimals: 3
 		       	},
-		     	name: MeterDaten.Name+" ("+MeterDaten.Unit+") " + gets[i].kw + "KW, " + gets[i].jahr ,
+		     	name: MeterDaten.Name+" ("+MeterDaten.Unit+") " + gets[i].monat + "." + gets[i].jahr ,
 		     	
 		        data: (function() {
 		            var data = [];
@@ -82,7 +82,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		    enabled: false
 		},
 	    title: {
-	    	text: "Gesamtübersicht"
+	    	text: "Monats Vergleich"
 	    },
 	    subtitle: {
 	    	text: ""
@@ -196,18 +196,22 @@ function drawChart(){
 		values = new Array();
 		values["ID"]= elemnetlist[i][0].value;
 		var jahr = elemnetlist[i][1].value;
-		var kw = elemnetlist[i][2].value;
+		var monat = elemnetlist[i][2].value;
 		values["jahr"]= elemnetlist[i][1].value
-		values["kw"]= elemnetlist[i][2].value
+		values["monat"]= elemnetlist[i][2].value
 		
-		var StartTS = GetDateFromKw(jahr,kw);
-		var EndTS = new Date(StartTS);
-		EndTS.setDate(EndTS.getDate() + 6);
+		var StartTS = new Date(jahr,monat-1,1);
+		if ( monat == 12)
+		{
+			var EndTS = new Date(parseFloat(jahr)+1,0,1);	
+		}
+		else
+		{
+			var EndTS = new Date(jahr,monat,1);
+		}
 		
-		timeVon.push(StartTS.getFullYear()+"-"+(StartTS.getMonth()+1)+"-"+StartTS.getDate()+' 00:00:00');
 		values["timeVon"]= StartTS.getFullYear()+"-"+(StartTS.getMonth()+1)+"-"+StartTS.getDate()+' 00:00:00';
-		timeBis.push(EndTS.getFullYear()+"-"+(EndTS.getMonth()+1)+"-"+EndTS.getDate()+' 23:59:59');
-		values["timeBis"]= EndTS.getFullYear()+"-"+(EndTS.getMonth()+1)+"-"+EndTS.getDate()+' 23:59:59';
+		values["timeBis"]= EndTS.getFullYear()+"-"+(EndTS.getMonth()+1)+"-"+EndTS.getDate()+' 00:00:00';
 		
 		gets.push(values);
 	}
@@ -222,18 +226,18 @@ function addMeterInView()
 	var meter = getJson("<?php echo base_url(); ?>index.php/data/getMeter/1");
 	
 	$("#config").append('<form id="f'+ (anzahl) +'" class="FormArray">');
-	$("#f"+anzahl).append('<select name=KW" id="combo' + anzahl + '" ></select>');
+	$("#f"+anzahl).append('<select name=monat" id="combo' + anzahl + '" ></select>');
 	for (var i=0,l = meter.length; i<l; i++)
 	{
 		$("#combo"+anzahl).append('<option value="'+meter[i].ID+'">'+meter[i].Name+'</option>')
 	}
-	$("#f"+anzahl).append('Jahr ');
+	$("#f"+anzahl).append(' Jahr ');
 	var now = new Date();
 	var nowstr = now.getFullYear()+"/"+now.getMonth()+"/"+now.getDay();
 	
 	// Jahre ermitteln und in combo einfügen
-	$("#f"+anzahl).append('<select name=Jahr" id="combojahr' + anzahl + '" onchange="updateKW(\'combokw'+anzahl+'\',this.value)"></select>');
-	for (var i=2000; i<=now.getFullYear(); i++)
+	$("#f"+anzahl).append('<select name=Jahr" id="combojahr' + anzahl + '" onchange="updatemonat(\'combomonat'+anzahl+'\',this.value)"></select>');
+	for (var i=2010; i<=now.getFullYear(); i++)
 	{
 		if (i==now.getFullYear())
 		{
@@ -245,13 +249,12 @@ function addMeterInView()
 		
 	}
 
-	$("#f"+anzahl).append('KW ');
-	// KWs ermitteln und in combo einfügen
-	var kw = GetLastKwFromJear(now.getFullYear());
-	$("#f"+anzahl).append('<select name="Jahr" id="combokw' + anzahl + '" ></select>');
-	for (var i=1; i<=kw; i++)
+	$("#f"+anzahl).append(' Monat ');
+	// monate einfügen
+	$("#f"+anzahl).append('<select name="Jahr" id="combomonat' + anzahl + '" ></select>');
+	for (var i=1; i<=12; i++)
 	{
-		$("#combokw"+anzahl).append('<option value="'+i+'">'+i+'</option>')
+		$("#combomonat"+anzahl).append('<option value="'+i+'">'+i+'</option>')
 	}
 	
 	$("#f"+anzahl).append('<input type="button" value="-" onclick="delmeter('+anzahl+')" />');
@@ -276,7 +279,7 @@ function delmeter(id)
 </script>
 
 <div id="config">
-	<form name="hinzufügen">
+	<form name="hinzuf&uuml;gen">
 			<input type="button" name="Hinzufuegen" value="Hinzuf&uuml;gen" onclick="addMeterInView()" />
 			<input type="button" name="Anzeigen" value="Anzeigen" onclick="drawChart()"/>
 	</form>

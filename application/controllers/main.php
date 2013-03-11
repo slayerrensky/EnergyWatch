@@ -139,22 +139,7 @@ class main extends CI_Controller {
                 $this -> form_validation -> set_message('required', 'Das Feld %s ist erforderlich.');
                 $this -> form_validation -> set_rules($this -> user_model -> getValidationRulesCHANGEPW());
                 breaK;
-            /*case 'webinosConfig.json' :
-               $attachment_location = $_SERVER["CONTEXT_DOCUMENT_ROOT"] . "js/webinos_config.json";
-                if (file_exists($attachment_location)) {
 
-                header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
-                header("Cache-Control: public"); // needed for i.e.
-                header("Content-Type: application/zip");
-                header("Content-Transfer-Encoding: Binary");
-                header("Content-Length:".filesize($attachment_location));
-                header("Content-Disposition: attachment; filename=webinosConfig.json");
-                readfile($attachment_location);
-                die();        
-            } else {
-                die("Error: File not found.");
-            } 
-                breaK;*/
             case 'deleteuser' :
                 if ($isAdmin) {
                     if (!empty($para1)) {
@@ -168,10 +153,6 @@ class main extends CI_Controller {
                 } else {
                     $site = 'overview';
                     $this -> load -> model('User_model');
-                    $this -> load -> model('Vera_model');
-                    $this -> load -> model('Kreis_model');
-                    $this -> load -> model('Quali_model');
-                    $this -> load -> model('Pos_model');
                 }
 
                 break;
@@ -183,10 +164,6 @@ class main extends CI_Controller {
                 } else {
                     $site = 'overview';
                     $this -> load -> model('User_model');
-                    $this -> load -> model('Vera_model');
-                    $this -> load -> model('Kreis_model');
-                    $this -> load -> model('Quali_model');
-                    $this -> load -> model('Pos_model');
                 }
                 break;
             case 'listmeters' :
@@ -219,9 +196,7 @@ class main extends CI_Controller {
                     $this -> form_validation -> set_rules($this -> Meter_model -> getValidationRules());               
                 break;
 				
-            case 'chart' :
-                $site = "form/chart";
-                break;
+            
 			case 'chart2' :                
                 $site = "form/chart2";
                 break;
@@ -229,8 +204,13 @@ class main extends CI_Controller {
                 $site = "form/meterChart";
 				$this -> layout_data['jsfile'] = "charthelper.js";
                 break;
-			case 'lineChart' :
-                $site = "form/lineChart";
+			case 'kwVergleichChart' :
+                $site = "form/kwVergleichChart";
+				$this -> layout_data['cssfile'] = "epoch_styles.css";
+				$this -> layout_data['jsfile'] = "charthelper.js";		
+                break;
+			case 'monatVergleichChart' :
+                $site = "form/monatVergleichChart";
 				$this -> layout_data['cssfile'] = "epoch_styles.css";
 				$this -> layout_data['jsfile'] = "charthelper.js";		
                 break;

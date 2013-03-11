@@ -24,6 +24,36 @@ function getValues(id,from,to,basePath)
 	return daten;
 }
 
+function getValuesOffset(id,from,to,basePath)
+{
+	var daten = getJson(basePath+"index.php/data/getAreaValues/"+id+"/"+from+"/"+to);
+	for (var i=0,l = daten.length; i<l; i++)
+	{
+		daten[i].TimeStamp = splitTSAndOffsetToFirstKw(daten[i].TimeStamp);
+		daten[i].Value = parseFloat(daten[i].Value);
+	}
+	return daten;
+}
+
+function splitTSAndOffsetToFirstKw(date)
+{
+	var t = date.split(/[- :]/);
+	var d2 = new Date(t[0], t[1]-1,t[2],t[3],t[4],t[5]);
+	var weekday;
+	if (d2.getDay()==0)
+	{
+		weekday = 6;
+	}
+	else
+	{
+		weekday = d2.getDay()-1;
+	}
+	var d = new Date(1972, 0,weekday+3,t[3],t[4],t[5]);
+	return Date.parse(d);
+	
+}
+
+
 function getValue(id,basePath) {
   var daten = getJson(basePath+"index.php/data/getLastValue/"+id);
   daten[0].TimeStamp = splitTS(daten[0].TimeStamp);
@@ -31,6 +61,8 @@ function getValue(id,basePath) {
   return daten[0];
 }
 
+// 2012-12-31 23:59
+// output ist da js Date objekt
 function splitTS(date)
 {
 	var t = date.split(/[- :]/);
