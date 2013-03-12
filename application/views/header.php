@@ -1,10 +1,6 @@
-<img id="logojpg" src="<?php echo base_url() ?>img/Beuth_Logo_single.gif"
-	alt="Beuth-Logo" width="132" height="100" />
+<!-- <p><img id="logojpg" src="<?php echo base_url() ?>/image/jrk_logo.jpg"alt="" width="100" height="96" /></p> -->
 	
-<style type="text/css">
-<!-- @import "<?php echo base_url() ?>"/css/header.css; -->
-</style>
-<h1>Energy Watch</h1>
+<h2>Max-Beckmann-Saal, Luxemburger Stra&szlig;e 20, 13353 Berlin</h2>
 
 <!-- <p align="right" >  -->
 

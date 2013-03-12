@@ -119,6 +119,8 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	    	shadow: true
 	    },
 		tooltip: {
+			xDateFormat: '%d',
+			headerFormat: '',
 			shared: true
 		},
 		credits: {

@@ -13,8 +13,8 @@
 			<li><a href="<?php echo site_url("main/changeWebsite/chart2"); ?>">aktuellen Verbrauch anzeigen</a></li>
 			<li><a href="<?php echo site_url("main/changeWebsite/kwVergleichChart"); ?>">KW Vergleich</a></li>
 			<li><a href="<?php echo site_url("main/changeWebsite/monatVergleichChart"); ?>">Monats Vergleich</a></li>
-			<li><a href="<?php echo site_url("main/changeWebsite/multiChart"); ?>">Gesamtübersicht</a></li>
-			<li><a href="<?php echo site_url("main/changeWebsite/visualisierung"); ?>">Visualisierung</a></li>
+			<li><a href="<?php echo site_url("main/changeWebsite/multiChart"); ?>">Gesamt&uuml;bersicht</a></li>
+			<li><a href="<?php echo site_url("main/changeWebsite/visualisierung"); ?>">Einzel Kurve</a></li>
 		</ul>
 	</li>
 	<li><a>Hilfe</a>

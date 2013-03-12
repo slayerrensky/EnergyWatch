@@ -221,7 +221,7 @@ function delmeter(id)
 }
 
 </script>
-<div id="config">
+<div id="config" style="margin-left: 1em">
 	<form name="hinzufügen">
 			<!-- <input type="button" name="Hinzufuegen" value="Hinzuf&uuml;gen" onclick="addMeterInView()" /> -->
 			Datum: von

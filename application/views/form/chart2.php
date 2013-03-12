@@ -1,5 +1,5 @@
 <?php $url = base_url() . 'js/'; ?>
-<script type="text/javascript" src="<?php echo $url?>jquery-1.7.2.js"></script>
+<script type="text/javascript" src="<?php echo $url?>jquery-1.8.3.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highcharts/js/highcharts.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highcharts/js/highcharts-more.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highcharts/js/modules/exporting.js"></script>

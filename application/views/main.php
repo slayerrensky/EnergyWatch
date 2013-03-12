@@ -27,7 +27,7 @@
 		<?php
 		}
 		?>
-		<script type="text/javascript" src="<?= base_url() ?>/js/jquery-1.7.2.js"></script>
+		<script type="text/javascript" src="<?= base_url() ?>/js/jquery-1.8.3.js"></script>
 	</head>
 	<body>
 		<div id="header">

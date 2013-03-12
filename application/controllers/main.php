@@ -206,12 +206,10 @@ class main extends CI_Controller {
                 break;
 			case 'kwVergleichChart' :
                 $site = "form/kwVergleichChart";
-				$this -> layout_data['cssfile'] = "epoch_styles.css";
 				$this -> layout_data['jsfile'] = "charthelper.js";		
                 break;
 			case 'monatVergleichChart' :
                 $site = "form/monatVergleichChart";
-				$this -> layout_data['cssfile'] = "epoch_styles.css";
 				$this -> layout_data['jsfile'] = "charthelper.js";		
                 break;
 			case 'multiChart' :

@@ -92,13 +92,13 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 			//maxZoom: 14 * 24 * 3600000, // fourteen days
 	        title: {
 	        	enabled: true,
-	            text: 'Datum / Uhrzeit'
+	            text: '<br/>Datum / Uhrzeit'
 	        },
 	        ordinal: false,
 	        dateTimeLabelFormats: { // don't display the dummy year
-                    hour: '%e, %H:%M',
-                    day: '%e, %H:%M',
-                    month: '%e, %H:%M',
+                    hour: '%e. %H:%M',
+                    day: '<br/>%e.Tag',
+                    month: '%e. %H:%M',
                     year: '%Y'
             }
 	    },
@@ -119,6 +119,8 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	    	shadow: true
 	    },
 		tooltip: {
+			xDateFormat: '%d',
+			headerFormat: '',
 			shared: true
 		},
 		credits: {
@@ -130,7 +132,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 					enabled: false,
 					states: {
 						hover: {
-							enabled: true,
+							enabled: false,
 							radius: 5
 						}
 					}
@@ -200,20 +202,19 @@ function drawChart(){
 		values["jahr"]= elemnetlist[i][1].value
 		switch (parseInt(monat-1))
 		{
-			case 0: monat = "Jan";break;
-			case 1: monat = "Feb";break;
-			case 2: monat = "Mär";break;
-			case 3: monat = "Apr";break;
-			case 4: monat = "Mai";break;
-			case 5: monat = "Jun";break;
-			case 6: monat = "Jul";break;
-			case 7: monat = "Aug";break;
-			case 8: monat = "Sep";break;
-			case 9: monat = "Okt";break;
-			case 10: monat = "Nov";break;
-			case 11: monat = "Dec";break;
+			case 0: values["monat"] = "Jan";break;
+			case 1: values["monat"] = "Feb";break;
+			case 2: values["monat"] = "Mär";break;
+			case 3: values["monat"] = "Apr";break;
+			case 4: values["monat"] = "Mai";break;
+			case 5: values["monat"] = "Jun";break;
+			case 6: values["monat"] = "Jul";break;
+			case 7: values["monat"] = "Aug";break;
+			case 8: values["monat"] = "Sep";break;
+			case 9: values["monat"] = "Okt";break;
+			case 10: values["monat"] = "Nov";break;
+			case 11: values["monat"] = "Dec";break;
 		}
-		values["monat"]= monat;
 		
 		var StartTS = new Date(jahr,monat-1,1);
 		if ( monat == 12)

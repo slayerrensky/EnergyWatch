@@ -174,18 +174,18 @@ drawLineChart(selObj.options[selIndex].value,timeVon,timeBis);
 }
 
 </script>
-
-<form name=myform ">
-	<select name=mytextarea id="combo" >
-	</select>
-	
-	Datum: von
-	<input type="text" id="datevon" value=""  />
-	bis
-	<input type="text" id="datebis" value="" />
-	<input type="button" name="Anzeigen" value="Anzeigen" onclick="drawChart()"/>
-</form>
+<div id="config" style="margin-left: 1em">
+	<form name=myform ">
+		<select name=mytextarea id="combo" >
+		</select>
 		
+		Datum: von
+		<input type="text" id="datevon" value=""  />
+		bis
+		<input type="text" id="datebis" value="" />
+		<input type="button" name="Anzeigen" value="Anzeigen" onclick="drawChart()"/>
+	</form>
+</div>
 <div id="container">
 
 </div>
