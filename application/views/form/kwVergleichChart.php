@@ -41,7 +41,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		     	
 		        data: (function() {
 		            var data = [];
-		            var daten = getValuesOffset(gets[i].ID,gets[i].timeVon,gets[i].timeBis,"<?php echo base_url(); ?>");
+		            var daten = getValuesOffsetKw(gets[i].ID,gets[i].timeVon,gets[i].timeBis,"<?php echo base_url(); ?>");
 		            //offset berechnen
 		            
 		            for (var k=0,l = daten.length; k<l; k++)

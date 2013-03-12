@@ -24,12 +24,23 @@ function getValues(id,from,to,basePath)
 	return daten;
 }
 
-function getValuesOffset(id,from,to,basePath)
+function getValuesOffsetKw(id,from,to,basePath)
 {
 	var daten = getJson(basePath+"index.php/data/getAreaValues/"+id+"/"+from+"/"+to);
 	for (var i=0,l = daten.length; i<l; i++)
 	{
 		daten[i].TimeStamp = splitTSAndOffsetToFirstKw(daten[i].TimeStamp);
+		daten[i].Value = parseFloat(daten[i].Value);
+	}
+	return daten;
+}
+
+function getValuesOffsetMonth(id,from,to,basePath)
+{
+	var daten = getJson(basePath+"index.php/data/getAreaValues/"+id+"/"+from+"/"+to);
+	for (var i=0,l = daten.length; i<l; i++)
+	{
+		daten[i].TimeStamp = splitTSAndOffsetToFirstMonth(daten[i].TimeStamp);
 		daten[i].Value = parseFloat(daten[i].Value);
 	}
 	return daten;
@@ -49,8 +60,16 @@ function splitTSAndOffsetToFirstKw(date)
 		weekday = d2.getDay()-1;
 	}
 	var d = new Date(1972, 0,weekday+3,t[3],t[4],t[5]);
-	return Date.parse(d);
+	return Date.parse(d);	
+}
+
+function splitTSAndOffsetToFirstMonth(date)
+{
+	var t = date.split(/[- :]/);
+	var d2 = new Date(t[0], t[1]-1,t[2],t[3],t[4],t[5]);
 	
+	var d = new Date(1972, 0,t[2],t[3],t[4],t[5]);
+	return Date.parse(d);	
 }
 
 

@@ -37,11 +37,11 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		     	tooltip: {
 		    		valueDecimals: 3
 		       	},
-		     	name: MeterDaten.Name+" ("+MeterDaten.Unit+") " + gets[i].monat + "." + gets[i].jahr ,
+		     	name: MeterDaten.Name+" ("+MeterDaten.Unit+"), " + gets[i].monat + " " + gets[i].jahr ,
 		     	
 		        data: (function() {
 		            var data = [];
-		            var daten = getValuesOffset(gets[i].ID,gets[i].timeVon,gets[i].timeBis,"<?php echo base_url(); ?>");
+		            var daten = getValuesOffsetMonth(gets[i].ID,gets[i].timeVon,gets[i].timeBis,"<?php echo base_url(); ?>");
 		            //offset berechnen
 		            
 		            for (var k=0,l = daten.length; k<l; k++)
@@ -96,9 +96,9 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	        },
 	        ordinal: false,
 	        dateTimeLabelFormats: { // don't display the dummy year
-                    hour: '%a, %H:%M',
-                    day: '%a, %H:%M',
-                    month: '%a, %H:%M',
+                    hour: '%e, %H:%M',
+                    day: '%e, %H:%M',
+                    month: '%e, %H:%M',
                     year: '%Y'
             }
 	    },
@@ -145,7 +145,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	var pRx = legegndx; //chart.chartWidth - 210;
     var pRy = 250
 
-    var Mma = getJson("<?php echo base_url(); ?>index.php/data/getAreaValuesmma/"+9+"/"+from+"/"+to);
+    var Mma = getJson("<?php //echo base_url(); ?>index.php/data/getAreaValuesmma/"+9+"/"+from+"/"+to);
     var max = runde(Mma[0].Max,3);
     var min = runde(Mma[0].Min,3);
     var avg = runde(Mma[0].Avg,3);
@@ -198,7 +198,22 @@ function drawChart(){
 		var jahr = elemnetlist[i][1].value;
 		var monat = elemnetlist[i][2].value;
 		values["jahr"]= elemnetlist[i][1].value
-		values["monat"]= elemnetlist[i][2].value
+		switch (parseInt(monat-1))
+		{
+			case 0: monat = "Jan";break;
+			case 1: monat = "Feb";break;
+			case 2: monat = "Mär";break;
+			case 3: monat = "Apr";break;
+			case 4: monat = "Mai";break;
+			case 5: monat = "Jun";break;
+			case 6: monat = "Jul";break;
+			case 7: monat = "Aug";break;
+			case 8: monat = "Sep";break;
+			case 9: monat = "Okt";break;
+			case 10: monat = "Nov";break;
+			case 11: monat = "Dec";break;
+		}
+		values["monat"]= monat;
 		
 		var StartTS = new Date(jahr,monat-1,1);
 		if ( monat == 12)
