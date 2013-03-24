@@ -19,7 +19,8 @@ $(document).ready(function() {
 function drawLineChart(id,from,to) {
 		// Create the chart
 		var numberOfValues;
-		var arbeit = 0;
+		var Statistic = new Array();
+		 
 		$("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.gif" alt="Loading"></p>');
 		var MeterDaten = getJson("<?php echo base_url(); ?>index.php/data/getDataFromMeter/"+id);
 		chart = new Highcharts.StockChart({

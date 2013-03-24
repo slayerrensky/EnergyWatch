@@ -21,18 +21,19 @@ $(document).ready(function() {
 var chart;
 
 
-function drawLineChart(id,from,to,gets) {
+function drawLineChart(gets) {
 var numberOfValues = 0;
-var arbeit = 0;
 
 $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.gif" alt="Loading"></p>');
 
-	function MeterValues(id,from,to){
+	function MeterValues(gets){
 		var series = new Array();
-		for (var i=0;i< id.length; i++)
+		for (var i=0;i< gets.length; i++)
 		{
-			var idfromget = gets[0].ID;
+			
 			var MeterDaten = getJson("<?php echo base_url(); ?>index.php/data/getDataFromMeter/"+gets[i].ID);
+			gets[i]["Unit"]=MeterDaten.Unit;
+			gets[i]["Name"]=MeterDaten.Name;
 			series.push({
 		     	tooltip: {
 		    		valueDecimals: 3
@@ -44,12 +45,11 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		            var daten = getValuesOffsetMonth(gets[i].ID,gets[i].timeVon,gets[i].timeBis,"<?php echo base_url(); ?>");
 		            //offset berechnen
 		            
+		            gets[i]["arbeit"]=0;
+		            
 		            for (var k=0,l = daten.length; k<l; k++)
 		            {
-		            	if (id[i] ==9)
-		            	{
-		            		arbeit+=daten[k].Value/12;
-		            	}
+		            	gets[i].arbeit+=daten[k].Value/12;
 			          	data.push({
 				            x: daten[k].TimeStamp,
 			    	        y: daten[k].Value
@@ -139,19 +139,21 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 				} 
 	        }
 	    },
-        series: MeterValues(id,from,to)
+        series: MeterValues(gets)
 	});
 	
 	
-/*	var legegndx = chart.legend.group.translateX;
+	var legegndx = chart.legend.group.translateX;
 	var pRx = legegndx; //chart.chartWidth - 210;
-    var pRy = 250
-
-    var Mma = getJson("<?php //echo base_url(); ?>index.php/data/getAreaValuesmma/"+9+"/"+from+"/"+to);
-    var max = runde(Mma[0].Max,3);
-    var min = runde(Mma[0].Min,3);
-    var avg = runde(Mma[0].Avg,3);
-    chart.renderer.label('Gesamtverbrauch: <br>Max: '+max+' kW<br>Min: '+min+' kW<br>Durchschnitt: '+avg+' kW<br>Arbeit: '+ runde(arbeit,3) +' kWh', pRx+5, pRy-5)
+    var pRy = 70 + (15*gets.length);
+    
+    var anzeigeText= "Arbeit: <br>"
+    //var Mma = getJson("<?php //echo base_url(); ?>index.php/data/getAreaValuesmma/"+id+"/"+from+"/"+to);
+	for (var i=0;i< gets.length; i++)
+	{
+		anzeigeText+= gets[i].Name +' ' + gets[i].monat+': '+ runde(gets[i].arbeit,3) +' '+gets[i].Unit+'h<br>';
+	}
+	chart.renderer.label(anzeigeText, pRx+5, pRy-5)
     	.attr({
         	//fill: colors[0],
             stroke: 'black',
@@ -164,7 +166,8 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
             width: '200px'
         })
         .add()
-*/
+	
+
 }
 
 
@@ -199,6 +202,7 @@ function drawChart(){
 		values["ID"]= elemnetlist[i][0].value;
 		var jahr = elemnetlist[i][1].value;
 		var monat = elemnetlist[i][2].value;
+		values["monat"] = monat;
 		values["jahr"]= elemnetlist[i][1].value
 		switch (parseInt(monat-1))
 		{
@@ -228,11 +232,12 @@ function drawChart(){
 		
 		values["timeVon"]= StartTS.getFullYear()+"-"+(StartTS.getMonth()+1)+"-"+StartTS.getDate()+' 00:00:00';
 		values["timeBis"]= EndTS.getFullYear()+"-"+(EndTS.getMonth()+1)+"-"+EndTS.getDate()+' 00:00:00';
+
 		
 		gets.push(values);
 	}
 	
-	drawLineChart(ID,timeVon,timeBis,gets);
+	drawLineChart(gets);
 }
 
 var anzahl = 1;
