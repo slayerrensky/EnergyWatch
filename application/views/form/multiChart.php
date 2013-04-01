@@ -1,7 +1,6 @@
 <?php $url = base_url() . 'js/'; ?>
 <script type="text/javascript" src="<?php echo $url?>jquery-1.8.3.js"></script>
 <script type="text/javascript" src="<?php echo $url?>jquery-ui.js"></script>
-<script type="text/javascript" src="<?php echo $url?>highcharts/js/highcharts.js"></script>
 <script type="text/javascript" src="<?php echo $url?>epoch_classes.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/highstock.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/modules/exporting.js"></script>

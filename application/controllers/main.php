@@ -227,6 +227,7 @@ class main extends CI_Controller {
 				
 			default :
                 //************Begruessung Site**********************
+                $this -> load -> model('Data_model');
                 $site = "overview";
                 
                 break;

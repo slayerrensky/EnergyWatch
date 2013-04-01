@@ -16,6 +16,25 @@
     	}
 	}
 	
+	public function getLastTimeStamp()
+	{
+		$query = "SELECT `Value`, `TimeStamp` 
+				  FROM `value` 
+				  ORDER BY  `TimeStamp` DESC 
+				  LIMIT 1";
+		
+		$DBAnswer = $this -> db -> query($query);
+        $DBAnswer = $DBAnswer -> result_array();
+		
+        if (count($DBAnswer)>0)
+		{
+            return $DBAnswer;
+        } else {
+            return FALSE;
+        }
+		
+	}
+	
 	public function getLastValue($meterID){
 		
 		$query = "SELECT `Value`, `TimeStamp` 

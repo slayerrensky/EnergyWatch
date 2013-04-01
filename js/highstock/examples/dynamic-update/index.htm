@@ -15,9 +15,8 @@ $(function() {
 	});
 	
 	// Create the chart
-	window.chart = new Highcharts.StockChart({
+	$('#container').highcharts('StockChart', {
 		chart : {
-			renderTo : 'container',
 			events : {
 				load : function() {
 
@@ -79,8 +78,8 @@ $(function() {
 		</script>
 	</head>
 	<body>
-<script src="http://code.highcharts.com/stock/highstock.js"></script>
-<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="../../js/highstock.js"></script>
+<script src="../../js/modules/exporting.js"></script>
 
 <div id="container" style="height: 500px; min-width: 500px"></div>
 	</body>

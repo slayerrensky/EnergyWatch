@@ -32,10 +32,9 @@ $(function () {
 	var now = getNow();
 	
 	// Create the chart
-	var chart = new Highcharts.Chart({
+	$('#container').highcharts({
 	
 	    chart: {
-	        renderTo: 'container',
 	        type: 'gauge',
 	        plotBackgroundColor: null,
 	        plotBackgroundImage: null,
@@ -106,7 +105,7 @@ $(function () {
 	    
 	    tooltip: {
 	    	formatter: function () {
-	    		return chart.tooltipText;
+	    		return this.series.chart.tooltipText;
 	    	}
 	    },
 	
@@ -185,8 +184,8 @@ $.extend($.easing, {
 		</script>
 	</head>
 	<body>
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/highcharts-more.js"></script>
+<script src="../../js/highcharts.js"></script>
+<script src="../../js/highcharts-more.js"></script>
 
 <div id="container" style="width: 300px; height: 300px; margin: 0 auto"></div>
 

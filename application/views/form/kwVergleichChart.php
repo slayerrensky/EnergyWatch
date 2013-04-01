@@ -1,7 +1,6 @@
 <?php $url = base_url() . 'js/'; ?>
 <script type="text/javascript" src="<?php echo $url?>jquery-1.8.3.js"></script>
 <script type="text/javascript" src="<?php echo $url?>jquery-ui.js"></script>
-<script type="text/javascript" src="<?php echo $url?>highcharts/js/highcharts.js"></script>
 <script type="text/javascript" src="<?php echo $url?>epoch_classes.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/highstock.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/modules/exporting.js"></script>
@@ -19,7 +18,12 @@ $(document).ready(function() {
 });
 
 var chart;
-
+var chartSize = Array();
+chartSize['height']=700;
+chartSize['width']=1300;
+chartSize['chartHeight']=550;
+chartSize['navigatorTop']=chartSize.chartHeight;
+chartSize['mmaTop']= chartSize.chartHeight + 50;
 
 function drawLineChart(gets) {
 var numberOfValues = 0;
@@ -36,13 +40,14 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		     	tooltip: {
 		    		valueDecimals: 3
 		       	},
-		     	name: MeterDaten.Name+" ("+MeterDaten.Unit+") " + gets[i].kw + "KW, " + gets[i].jahr ,
 		     	
 		        data: (function() {
 		            var data = [];
 		            var daten = getValuesOffsetKw(gets[i].ID,gets[i].timeVon,gets[i].timeBis,"<?php echo base_url(); ?>");
+		           	
 		           	gets[i]["Unit"]=MeterDaten.Unit;
 					gets[i]["Name"]=MeterDaten.Name;
+		            gets[i]["Mma"]= getJson("<?php echo base_url(); ?>index.php/data/getAreaValuesmma/"+gets[i].ID+"/"+gets[i].timeVon+"/"+gets[i].timeBis); 
 		            
 		            gets[i]["arbeit"]=0;
 		            for (var k=0,l = daten.length; k<l; k++)
@@ -57,6 +62,10 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 			        numberOfValues += daten.length;
 			        return data;
 		        })(),
+		        // Legende
+		        name: MeterDaten.Name+" ("+MeterDaten.Unit+"), " + gets[i].kw + "KW " + gets[i].jahr +
+		        	'<br>Arbeit: '+ runde(gets[i].arbeit,3)+' '+ gets[i].Unit+'h' +
+		        	'<br>Max: '+ runde(gets[i].Mma[0].Max,3) + ' ' + gets[i].Unit+'h', 
 		        turboThreshold: numberOfValues,
 			});
 		}
@@ -69,11 +78,16 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	    	renderTo: 'container',
 	        type: 'spline',
 	        //inverted: false,
-	        //width: 500,
-	        height:550,
+	        width: chartSize.width,
+	        height: chartSize.height,
+	        borderWidth: 2,
+	        marginBottom: 150,
 	        style: {
 	        	margin: '0 auto'
 	        }
+	    },
+	    navigator: {
+	    	top: chartSize.navigatorTop
 	    },
 	    
 		rangeSelector: {
@@ -109,12 +123,13 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	    },
 	    legend: {
 	    	enabled: true,
-	    	align: 'right',
+	    	//align: 'right',
         	borderColor: 'black',
         	borderWidth: 2,
-	    	layout: 'vertical',
-	    	verticalAlign: 'top',
-	    	y: 25,
+	    	layout: 'horizontal',
+	    	verticalAlign: 'bottom',
+	    	//y: chartSize.mma,
+	    	//y: 25,
 	    	shadow: true
 	    },
 		tooltip: {
@@ -141,9 +156,9 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
         series: MeterValues(gets)
 	});
 		
-	var legegndx = chart.legend.group.translateX;
-	var pRx = legegndx -3; //chart.chartWidth - 210;
-    var pRy = 70 + (15*gets.length);
+/*	var legegndx = chart.legend.group.translateX;
+	var pRx = 10; //chart.chartWidth - 210;
+    var pRy = chartSize.mmaTop + (15*gets.length);
     
     var anzeigeText= "Arbeit: <br>"
     //var Mma = getJson("<?php //echo base_url(); ?>index.php/data/getAreaValuesmma/"+id+"/"+from+"/"+to);
@@ -164,7 +179,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
             width: '210px'
         })
         .add()
-
+*/
 }
 
 

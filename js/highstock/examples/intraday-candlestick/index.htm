@@ -10,10 +10,8 @@ $(function() {
 	$.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=new-intraday.json&callback=?', function(data) {
 
 		// create the chart
-		chart = new Highcharts.StockChart({
-			chart : {
-				renderTo : 'container'
-			},
+		$('#container').highcharts('StockChart', {
+			
 
 			title: {
 				text: 'AAPL stock price by minute'
@@ -54,7 +52,7 @@ $(function() {
 	<body>
 <div id="container" style="height: 500px; min-width: 500px"></div>
 
-<script src="http://code.highcharts.com/stock/highstock.js"></script>
-<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="../../js/highstock.js"></script>
+<script src="../../js/modules/exporting.js"></script>
 	</body>
 </html>

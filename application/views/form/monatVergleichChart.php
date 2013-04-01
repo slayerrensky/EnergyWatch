@@ -1,7 +1,6 @@
 <?php $url = base_url() . 'js/'; ?>
 <script type="text/javascript" src="<?php echo $url?>jquery-1.8.3.js"></script>
 <script type="text/javascript" src="<?php echo $url?>jquery-ui.js"></script>
-<script type="text/javascript" src="<?php echo $url?>highcharts/js/highcharts.js"></script>
 <script type="text/javascript" src="<?php echo $url?>epoch_classes.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/highstock.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/modules/exporting.js"></script>
@@ -38,8 +37,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		     	tooltip: {
 		    		valueDecimals: 3
 		       	},
-		     	name: MeterDaten.Name+" ("+MeterDaten.Unit+"), " + gets[i].monat + " " + gets[i].jahr ,
-		     	
+		     		
 		        data: (function() {
 		            var data = [];
 		            var daten = getValuesOffsetMonth(gets[i].ID,gets[i].timeVon,gets[i].timeBis,"<?php echo base_url(); ?>");
@@ -58,6 +56,8 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 			        numberOfValues += daten.length;
 			        return data;
 		        })(),
+		        // Legende
+		        name: MeterDaten.Name+" ("+MeterDaten.Unit+"), " + gets[i].monat + " " + gets[i].jahr +'<br>Arbeit: '+ runde(gets[i].arbeit,3)+' '+gets[i].Unit+'h',
 		        turboThreshold: numberOfValues,
 			});
 		}
@@ -143,7 +143,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	});
 	
 	
-	var legegndx = chart.legend.group.translateX;
+/*	var legegndx = chart.legend.group.translateX;
 	var pRx = legegndx; //chart.chartWidth - 210;
     var pRy = 70 + (15*gets.length);
     
@@ -151,7 +151,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
     //var Mma = getJson("<?php //echo base_url(); ?>index.php/data/getAreaValuesmma/"+id+"/"+from+"/"+to);
 	for (var i=0;i< gets.length; i++)
 	{
-		anzeigeText+= gets[i].Name +' ' + gets[i].monat+': '+ runde(gets[i].arbeit,3) +' '+gets[i].Unit+'h<br>';
+		anzeigeText+= gets[i].Name +' ' + gets[i].monat + ' ' + gets[i].jahr + ': '+ runde(gets[i].arbeit,3) +' '+gets[i].Unit+'h<br>';
 	}
 	chart.renderer.label(anzeigeText, pRx+5, pRy-5)
     	.attr({
@@ -166,7 +166,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
             width: '200px'
         })
         .add()
-	
+*/	
 
 }
 

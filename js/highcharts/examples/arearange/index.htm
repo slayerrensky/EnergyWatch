@@ -9,10 +9,9 @@
 $(function () {
     $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=range.json&callback=?', function(data) {
     
-    	window.chart = new Highcharts.Chart({
+    	$('#container').highcharts({
     	
 		    chart: {
-		        renderTo: 'container',
 		        type: 'arearange',
 		        zoomType: 'x'
 		    },
@@ -53,9 +52,9 @@ $(function () {
 		</script>
 	</head>
 	<body>
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/highcharts-more.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="../../js/highcharts.js"></script>
+<script src="../../js/highcharts-more.js"></script>
+<script src="../../js/modules/exporting.js"></script>
 
 <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 

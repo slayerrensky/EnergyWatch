@@ -10,10 +10,8 @@ $(function() {
 
 	$.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function(data) {
 		// Create the chart
-		window.chart = new Highcharts.StockChart({
-			chart : {
-				renderTo : 'container'
-			},
+		$('#container').highcharts('StockChart', {
+			
 
 			rangeSelector : {
 				selected : 1
@@ -38,8 +36,8 @@ $(function() {
 		</script>
 	</head>
 	<body>
-<script src="http://code.highcharts.com/stock/highstock.js"></script>
-<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="../../js/highstock.js"></script>
+<script src="../../js/modules/exporting.js"></script>
 
 <div id="container" style="height: 500px; min-width: 500px"></div>
 	</body>
