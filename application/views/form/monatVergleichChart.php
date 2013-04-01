@@ -12,16 +12,20 @@
 		var dp_cal1,dp_cal2;
 	
 $(document).ready(function() {
-  //addItem();
-  //dp_cal1 = new Epoch('epoch_popup','popup',document.getElementById('datevon'));
-  //dp_cal2 = new Epoch('epoch_popup','popup',document.getElementById('datebis'));
+
 });
 
 var chart;
-
+var chartSize = Array();
+chartSize['height']=720;       // Höhe des Gesamten Chart Bereichs
+chartSize['width']=1300;       // Breite des Chartbereichs
+chartSize['chartHeight']=550;  // Höhe des inneren Charts
+chartSize['navigatorTop']=chartSize.chartHeight;  // Anfang des Navigators
+chartSize['legende']= chartSize.height - chartSize.chartHeight - 30;
 
 function drawLineChart(gets) {
 var numberOfValues = 0;
+var offsetLegende = parseInt((gets.length - 1)/4)*70 ;
 
 $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.gif" alt="Loading"></p>');
 
@@ -43,6 +47,10 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		            var daten = getValuesOffsetMonth(gets[i].ID,gets[i].timeVon,gets[i].timeBis,"<?php echo base_url(); ?>");
 		            //offset berechnen
 		            
+		            gets[i]["Unit"]=MeterDaten.Unit;
+					gets[i]["Name"]=MeterDaten.Name;
+		            gets[i]["Mma"]= getJson("<?php echo base_url(); ?>index.php/data/getAreaValuesmma/"+gets[i].ID+"/"+gets[i].timeVon+"/"+gets[i].timeBis);
+		            
 		            gets[i]["arbeit"]=0;
 		            
 		            for (var k=0,l = daten.length; k<l; k++)
@@ -57,7 +65,10 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 			        return data;
 		        })(),
 		        // Legende
-		        name: MeterDaten.Name+" ("+MeterDaten.Unit+"), " + gets[i].monat + " " + gets[i].jahr +'<br>Arbeit: '+ runde(gets[i].arbeit,3)+' '+gets[i].Unit+'h',
+		        name: MeterDaten.Name+" ("+MeterDaten.Unit+"), " + gets[i].monat + ". " + gets[i].jahr +
+		        	'<br>Arbeit: '+ runde(gets[i].arbeit,3)+' '+ gets[i].Unit+'h' +
+		        	'<br>Max: '+ runde(gets[i].Mma[0].Max,3) + ' ' + gets[i].Unit+
+		        	'<br>Min: '+ runde(gets[i].Mma[0].Min,3) + ' ' + gets[i].Unit, 
 		        turboThreshold: numberOfValues,
 			});
 		}
@@ -70,13 +81,17 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	    	renderTo: 'container',
 	        type: 'spline',
 	        //inverted: false,
-	        //width: 500,
-	        height:550,
+	        width: chartSize.width,
+	        height: chartSize.height + offsetLegende,
+	        borderWidth: 2,
+	        marginBottom: chartSize.legende + offsetLegende,
 	        style: {
 	        	margin: '0 auto'
 	        }
 	    },
-	    
+	    navigator: {
+	    	top: chartSize.navigatorTop
+	    },
 		rangeSelector: {
 			selected: 0,
 		    enabled: false
@@ -110,18 +125,20 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	    },
 	    legend: {
 	    	enabled: true,
-	    	align: 'right',
+	    	//align: 'right',
         	borderColor: 'black',
         	borderWidth: 2,
-	    	layout: 'vertical',
-	    	verticalAlign: 'top',
-	    	y: 25,
+	    	layout: 'horizontal',
+	    	verticalAlign: 'bottom',
+	    	//y: chartSize.mma,
+	    	//y: 25,
 	    	shadow: true
 	    },
 		tooltip: {
 			xDateFormat: '%d',
 			headerFormat: '',
-			shared: true
+			shared: true,
+			enabled: false
 		},
 		credits: {
             enabled: false

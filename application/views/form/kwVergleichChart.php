@@ -12,22 +12,22 @@
 		var dp_cal1,dp_cal2;
 	
 $(document).ready(function() {
-  //addItem();
-  //dp_cal1 = new Epoch('epoch_popup','popup',document.getElementById('datevon'));
-  //dp_cal2 = new Epoch('epoch_popup','popup',document.getElementById('datebis'));
+
 });
 
 var chart;
 var chartSize = Array();
-chartSize['height']=700;
-chartSize['width']=1300;
-chartSize['chartHeight']=550;
-chartSize['navigatorTop']=chartSize.chartHeight;
-chartSize['mmaTop']= chartSize.chartHeight + 50;
+chartSize['height']=720;       // Höhe des Gesamten Chart Bereichs
+chartSize['width']=1300;       // Breite des Chartbereichs
+chartSize['chartHeight']=550;  // Höhe des inneren Charts
+chartSize['navigatorTop']=chartSize.chartHeight;  // Anfang des Navigators
+chartSize['legende']= chartSize.height - chartSize.chartHeight - 30;
 
 function drawLineChart(gets) {
 var numberOfValues = 0;
 var arbeit = 0;
+var offsetLegende = parseInt((gets.length - 1)/4)*70 ;
+
 
 $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.gif" alt="Loading"></p>');
 
@@ -65,7 +65,8 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		        // Legende
 		        name: MeterDaten.Name+" ("+MeterDaten.Unit+"), " + gets[i].kw + "KW " + gets[i].jahr +
 		        	'<br>Arbeit: '+ runde(gets[i].arbeit,3)+' '+ gets[i].Unit+'h' +
-		        	'<br>Max: '+ runde(gets[i].Mma[0].Max,3) + ' ' + gets[i].Unit+'h', 
+		        	'<br>Max: '+ runde(gets[i].Mma[0].Max,3) + ' ' + gets[i].Unit + 
+		        	'<br>Min: '+ runde(gets[i].Mma[0].Min,3) + ' ' + gets[i].Unit, 
 		        turboThreshold: numberOfValues,
 			});
 		}
@@ -79,9 +80,9 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	        type: 'spline',
 	        //inverted: false,
 	        width: chartSize.width,
-	        height: chartSize.height,
+	        height: chartSize.height + offsetLegende,
 	        borderWidth: 2,
-	        marginBottom: 150,
+	        marginBottom: chartSize.legende + offsetLegende,
 	        style: {
 	        	margin: '0 auto'
 	        }
@@ -135,7 +136,8 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		tooltip: {
 			xDateFormat: '%d',
 			headerFormat: '',
-			shared: true
+			shared: true,
+			enabled: false
 		},
 		credits: {
             enabled: false

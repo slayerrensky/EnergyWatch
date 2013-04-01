@@ -26,7 +26,8 @@ function drawLineChart(id,from,to) {
 		chart = new Highcharts.StockChart({
 		    chart: {
 		        renderTo: 'container',
-		        height:550
+		        height:550,
+		        width: 1300,
 		    },
 		    rangeSelector: {
 		        selected: 0,

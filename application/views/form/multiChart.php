@@ -65,7 +65,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	    	renderTo: 'container',
 	        type: 'spline',
 	        //inverted: false,
-	        //width: 500,
+	        width: 1300,
 	        height:550,
 	        style: {
 	        	margin: '0 auto'
