@@ -17,15 +17,15 @@ $(document).ready(function() {
 
 var chart;
 var chartSize = Array();
-chartSize['height']=720;       // Höhe des Gesamten Chart Bereichs
+chartSize['height']=740;       // Höhe des Gesamten Chart Bereichs
 chartSize['width']=1300;       // Breite des Chartbereichs
 chartSize['chartHeight']=550;  // Höhe des inneren Charts
 chartSize['navigatorTop']=chartSize.chartHeight;  // Anfang des Navigators
-chartSize['legende']= chartSize.height - chartSize.chartHeight - 30;
+chartSize['legende']= chartSize.height - chartSize.chartHeight ;
 
 function drawLineChart(gets) {
 var numberOfValues = 0;
-var offsetLegende = parseInt((gets.length - 1)/4)*70 ;
+var offsetLegende = parseInt((gets.length - 1)/4)*80 ;
 
 $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.gif" alt="Loading"></p>');
 
@@ -55,7 +55,10 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		            
 		            for (var k=0,l = daten.length; k<l; k++)
 		            {
-		            	gets[i].arbeit+=daten[k].Value/12;
+		            	if (gets[i].Unit.contains("W"))
+		            	{
+		            		gets[i].arbeit+=daten[k].Value/12;
+		            	}
 			          	data.push({
 				            x: daten[k].TimeStamp,
 			    	        y: daten[k].Value
@@ -65,10 +68,20 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 			        return data;
 		        })(),
 		        // Legende
-		        name: MeterDaten.Name+" ("+MeterDaten.Unit+"), " + gets[i].monat + ". " + gets[i].jahr +
-		        	'<br>Arbeit: '+ runde(gets[i].arbeit,3)+' '+ gets[i].Unit+'h' +
-		        	'<br>Max: '+ runde(gets[i].Mma[0].Max,3) + ' ' + gets[i].Unit+
-		        	'<br>Min: '+ runde(gets[i].Mma[0].Min,3) + ' ' + gets[i].Unit, 
+		        name: (function() {
+		        	var arbeit = '';
+		        	if (gets[i].arbeit>0 )
+		        	{
+		        		arbeit ='<br>Arbeit: '+ runde(gets[i].arbeit,3)+' '+ gets[i].Unit+'/h';
+		        	}
+		        			        	
+		        	return MeterDaten.Name+" ("+MeterDaten.Unit+"), " + gets[i].monat + ". " + gets[i].jahr +
+		        	arbeit +
+		        	'<br>Maximum: '+ runde(gets[i].Mma[0].Max,3) + ' ' + gets[i].Unit+
+		        	'<br>Mittelwert: '+ runde(gets[i].Mma[0].Avg,3) + ' ' + gets[i].Unit+
+		        	'<br>Minimum: '+ runde(gets[i].Mma[0].Min,3) + ' ' + gets[i].Unit;
+		        	
+		        	})(), 
 		        turboThreshold: numberOfValues,
 			});
 		}
@@ -125,13 +138,10 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	    },
 	    legend: {
 	    	enabled: true,
-	    	//align: 'right',
         	borderColor: 'black',
         	borderWidth: 2,
 	    	layout: 'horizontal',
 	    	verticalAlign: 'bottom',
-	    	//y: chartSize.mma,
-	    	//y: 25,
 	    	shadow: true
 	    },
 		tooltip: {
