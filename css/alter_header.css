@@ -1,40 +1,39 @@
+
+
+/* -------------------------- 
+ * Altes CSS
+ *---------------------------
 html, body, div  {margin: 0; padding: 0;} 
 
 
 body{
 	font-family:Verdana,Tahoma,Arial,sans-serif;
-	width: 1300px;
-	margin: auto;
-	background-color: #fefefe;
 }
 
 img#logojpg {
-	#position: absolute;
-	top:  0em;
-	left: 0em;
+position: absolute;
+top:  0em;
+left: 0em;
 }
 
 div#header
 	{	
 		background: #ADC3DA;
 		height: 5em;	
-		width: 1300px;	
+		width: 100%;
+		/*background-color:#0A909C; 
+		text-align:center;  */
+		text-align:left;
+		text-indent:130px;
 		border-bottom-right-radius: 10px;
-		border-bottom-left-radius: 10px;
+		border-top-right-radius: 10px;
+		text-decoration:none; 
+		color:#525252; 
+		/*font-family:Verdana,Tahoma,Arial,sans-serif; */
+		font-variant:	small-caps;
 		position: absolute; 	
 	}
-div#header h2
-{
-	text-align:left;
-	text-indent: auto;
-	text-decoration:none; 
-	color:#525252; 
-	#/*background-color:#0A909C; 
-	#text-align:center;  */
-	#/*font-family:Verdana,Tahoma,Arial,sans-serif; */
-	#font-variant:	small-caps;
-	margin-left: 2em;
-} 
+
 
 
 #logoutButton
@@ -57,7 +56,7 @@ div#content
 	border: none;
 	margin-top: 1em;
 	top: 8em;
-	width: 1300px;
+	width: 98%;
 	height: auto
 	z-index: 1;
 	position: absolute;
@@ -72,3 +71,4 @@ div#acInfo {
 div#acInfo p {
 	text-align: right;
 }
+*/
