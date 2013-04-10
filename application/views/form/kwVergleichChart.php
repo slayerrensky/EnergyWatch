@@ -82,7 +82,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		        	
 		        	})(), 
 		        turboThreshold: numberOfValues,
-		        type: 'line',
+		       
 			});
 		}
 		//alert(numberOfValues);
@@ -166,15 +166,18 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
         }, 
 	    plotOptions: {
 	    	spline: {
-	        	marker: {
+	    		marker: {
 					enabled: false,
 					states: {
 						hover: {
-							enabled: true,
-							radius: 5
+							enabled: false,
+							radius: 1
 						}
 					}
-				} 
+				},
+	    		dataGrouping: {
+                    enabled: false
+                }
 	        }
 	    },
         series: MeterValues(gets)

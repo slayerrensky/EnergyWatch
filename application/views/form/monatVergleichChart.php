@@ -163,6 +163,9 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
         }, 
 	    plotOptions: {
 	    	spline: {
+	    		dataGrouping: {
+                    enabled: false
+                },
 	        	marker: {
 					enabled: false,
 					states: {

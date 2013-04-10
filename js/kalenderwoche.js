@@ -44,5 +44,9 @@ function GetDateFromKw(jahr,kw)
 	{
 		date.setDate(date.getDate() + 1);
 	}
+	if (date.getDay() > 1)
+	{
+		date.setDate(date.getDate() - (date.getDay() -1));
+	}
 	return date;
 }

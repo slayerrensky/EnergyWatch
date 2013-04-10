@@ -67,6 +67,9 @@ function drawLineChart(id,from,to) {
         	}, 
             plotOptions: {
                 spline: {
+                	dataGrouping: {
+                    	enabled: false
+                	},
                      marker: {
 						enabled: false,
 						states: {
