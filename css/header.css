@@ -9,9 +9,10 @@ body{
 }
 
 img#logojpg {
-	#position: absolute;
+	position: absolute;
 	top:  0em;
 	left: 0em;
+	display: inline;
 }
 
 div#header
@@ -33,7 +34,10 @@ div#header h2
 	#text-align:center;  */
 	#/*font-family:Verdana,Tahoma,Arial,sans-serif; */
 	#font-variant:	small-caps;
-	margin-left: 2em;
+	margin-left: 5em;
+	top: 0em;
+	position: absolute;
+	display: inline;
 } 
 #identv
 {
@@ -41,15 +45,23 @@ div#header h2
 	top: -1em;
 	display: inline;
 	position: absolute;
-	
+	font-size: 12px;
 } 
-
+#identv1
+{
+	right:1em;
+	top: 0em;
+	display: inline;
+	position: absolute;
+	font-size: 12px;
+}
 #identc
 {
 	right:1em;
-	top:2em;
+	top:4em;
 	display: inline;
 	position: absolute;
+	font-size: 12px;
 }
 
 #logoutButton
