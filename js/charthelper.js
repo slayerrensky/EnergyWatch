@@ -59,7 +59,7 @@ function splitTSAndOffsetToFirstKw(date)
 	{
 		weekday = d2.getDay()-1;
 	}
-	var d = new Date(1972, 0,weekday+3,t[3],t[4],t[5]);
+	var d = new Date(72, 0,weekday+3,t[3],t[4],t[5]);
 	return Date.parse(d);	
 }
 

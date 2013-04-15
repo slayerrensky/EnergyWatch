@@ -9,6 +9,7 @@
 	
 	var dp_cal1,dp_cal2;
 	var chart;
+
 $(document).ready(function() {
   addItem();
   dp_cal1 = new Epoch('epoch_popup','popup',document.getElementById('datevon'));
@@ -20,6 +21,7 @@ function drawLineChart(id,from,to) {
 		// Create the chart
 		var numberOfValues;
 		var Statistic = new Array();
+		var arbeit = 0;
 		 
 		$("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.gif" alt="Loading"></p>');
 		var MeterDaten = getJson("<?php echo base_url(); ?>index.php/data/getDataFromMeter/"+id);
@@ -65,6 +67,9 @@ function drawLineChart(id,from,to) {
         	}, 
             plotOptions: {
                 spline: {
+                	dataGrouping: {
+                    	enabled: false
+                	},
                      marker: {
 						enabled: false,
 						states: {
@@ -97,7 +102,7 @@ function drawLineChart(id,from,to) {
 	                
 	                for (var i=0,l = daten.length; i<l; i++)
 	                {
-	                	if (MeterDaten.Unit == "kW" ||MeterDaten.Unit == "W")
+	                	if (MeterDaten.Unit.indexOf('W') >= 0)
 	                	{
 	                		arbeit+=daten[i].Value/12;
 	                	}

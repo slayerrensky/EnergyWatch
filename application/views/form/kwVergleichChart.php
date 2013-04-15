@@ -48,11 +48,12 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		           	gets[i]["Unit"]=MeterDaten.Unit;
 					gets[i]["Name"]=MeterDaten.Name;
 		            gets[i]["Mma"]= getJson("<?php echo base_url(); ?>index.php/data/getAreaValuesmma/"+gets[i].ID+"/"+gets[i].timeVon+"/"+gets[i].timeBis); 
-		            
+							     
 		            gets[i]["arbeit"]=0;
 		            for (var k=0,l = daten.length; k<l; k++)
 		            {
-		            	if (gets[i].Unit.contains("W")) //Wenn W für Watt vor kommt dann rechne Arbeit 
+		            	
+		            	if (gets[i]["Unit"].indexOf('W') >= 0) //Wenn W für Watt vor kommt dann rechne Arbeit 
 		            	{
 		            		gets[i].arbeit+=daten[k].Value/12;
 		            	}
@@ -81,6 +82,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		        	
 		        	})(), 
 		        turboThreshold: numberOfValues,
+		       
 			});
 		}
 		//alert(numberOfValues);
@@ -101,7 +103,16 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	        }
 	    },
 	    navigator: {
-	    	top: chartSize.navigatorTop
+	    	top: chartSize.navigatorTop,
+	    	xAxis: {
+		        dateTimeLabelFormats: { // don't display the dummy year
+	                    hour: '%a',
+	                    day: '%a',
+	                    week: '%a',
+	                    month: '%a',
+	                    year: '%Y'
+	            }
+	    	},
 	    },
 	    
 		rangeSelector: {
@@ -125,6 +136,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	        dateTimeLabelFormats: { // don't display the dummy year
                     hour: '%a, %H:%M',
                     day: '%a, %H:%M',
+                    week: '%a, %H:%M',
                     month: '%a, %H:%M',
                     year: '%Y'
             }
@@ -156,15 +168,18 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
         }, 
 	    plotOptions: {
 	    	spline: {
-	        	marker: {
+	    		marker: {
 					enabled: false,
 					states: {
 						hover: {
-							enabled: true,
-							radius: 5
+							enabled: false,
+							radius: 1
 						}
 					}
-				} 
+				},
+	    		dataGrouping: {
+                    enabled: false
+                }
 	        }
 	    },
         series: MeterValues(gets)

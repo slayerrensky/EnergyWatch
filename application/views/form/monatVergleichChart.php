@@ -55,7 +55,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		            
 		            for (var k=0,l = daten.length; k<l; k++)
 		            {
-		            	if (gets[i].Unit.contains("W"))
+		            	if (gets[i]["Unit"].indexOf('W') >= 0)
 		            	{
 		            		gets[i].arbeit+=daten[k].Value/12;
 		            	}
@@ -103,7 +103,15 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	        }
 	    },
 	    navigator: {
-	    	top: chartSize.navigatorTop
+	    	top: chartSize.navigatorTop,
+	    	xAxis: {
+	    		dateTimeLabelFormats: { // don't display the dummy year
+                hour: '%e. %H:%M',
+                day: '%e',
+                month: '%e. %H:%M',
+                year: '%Y'
+            	}
+          },
 	    },
 		rangeSelector: {
 			selected: 0,
@@ -155,6 +163,9 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
         }, 
 	    plotOptions: {
 	    	spline: {
+	    		dataGrouping: {
+                    enabled: false
+                },
 	        	marker: {
 					enabled: false,
 					states: {
