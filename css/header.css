@@ -35,7 +35,22 @@ div#header h2
 	#font-variant:	small-caps;
 	margin-left: 2em;
 } 
+#identv
+{
+	right:1em;
+	top: -1em;
+	display: inline;
+	position: absolute;
+	
+} 
 
+#identc
+{
+	right:1em;
+	top:2em;
+	display: inline;
+	position: absolute;
+}
 
 #logoutButton
 {

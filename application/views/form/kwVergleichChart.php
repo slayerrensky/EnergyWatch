@@ -17,7 +17,7 @@ $(document).ready(function() {
 
 var chart;
 var chartSize = Array();
-chartSize['height']=740;       // Höhe des Gesamten Chart Bereichs
+chartSize['height']=800; // Höhe des Gesamten Chart Bereichs
 chartSize['width']=1300;       // Breite des Chartbereichs
 chartSize['chartHeight']=550;  // Höhe des inneren Charts
 chartSize['navigatorTop']=chartSize.chartHeight+20;  // Anfang des Navigators
@@ -70,10 +70,10 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		        	var arbeit = ''; // Leer wenn keine Arbeit, ansonsten wird es im im überschreiben
 		        	if (gets[i].arbeit>0 )
 		        	{
-		        		arbeit ='<br>Arbeit  : '+ runde(gets[i].kw,3)+' '+ gets[i].Unit+'/h';
+		        		arbeit ='<br>Arbeit  : '+ runde(gets[i].arbeit,3)+' '+ gets[i].Unit+'/h';
 		        	}
 		        			        	
-		        	return MeterDaten.Name+" ("+MeterDaten.Unit+"), " + gets[i].kw + "KW " + gets[i].jahr +
+		        	return MeterDaten.Name+" ("+MeterDaten.Unit+"), KW " + gets[i].kw + " " + gets[i].jahr +
 		        	arbeit +
 		        	'<br>Maximum: '+ runde(gets[i].Mma[0].Max,3) + ' ' + gets[i].Unit+
 		        	'<br>Mittelwert: '+ runde(gets[i].Mma[0].Avg,3) + ' ' + gets[i].Unit+
@@ -93,7 +93,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	        type: 'spline',
 	        //inverted: false,
 	        width: chartSize.width,
-	        height: chartSize.height + offsetLegende,
+	        height: chartSize.height + offsetLegende ,
 	        borderWidth: 2,
 	        marginBottom: chartSize.legende + offsetLegende,
 	        style: {
@@ -109,10 +109,10 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		    enabled: false
 		},
 	    title: {
-	    	text: "Kalenderwochen Vergleich"
+	    	text: "Max Beckmann Saal, Luxemburger Straße 10, 13353 Berlin"
 	    },
 	    subtitle: {
-	    	text: ""
+	    	text: "Kalenderwochen Vergleich"
 	    },
 	    xAxis: {
 	    	type: 'datetime',
@@ -141,7 +141,9 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
         	borderWidth: 2,
 	    	layout: 'horizontal',
 	    	verticalAlign: 'bottom',
-	    	shadow: true
+	    	itemMarginBottom: 30,
+	    	shadow: true,
+	    	
 	    },
 		tooltip: {
 			xDateFormat: '%d',
@@ -167,6 +169,22 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	    },
         series: MeterValues(gets)
 	});
+		
+	var pRx = chartSize.width -200;
+	var pRy = chartSize.height + offsetLegende-25; 	
+	chart.renderer.label("Ingenieurbüro Prof. Rauchfuss", pRx, pRy)
+    	.attr({
+        	//fill: colors[0],
+            //stroke: 'black',
+            'stroke-width': 2,
+            //padding: 5,
+            //r: 5
+        })
+        .css({
+        	color: 'black',
+            width: '210px'
+        })
+        .add()	
 		
 /*	var legegndx = chart.legend.group.translateX;
 	var pRx = 10; //chart.chartWidth - 210;

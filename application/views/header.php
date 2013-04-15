@@ -1,7 +1,8 @@
 <!-- <p><img id="logojpg" src="<?php echo base_url() ?>/image/jrk_logo.jpg"alt="" width="100" height="96" /></p> -->
 	
 <h2>Max-Beckmann-Saal, Luxemburger Stra&szlig;e 20, 13353 Berlin</h2>
-
+<p id="identv">Berlin Bezirksamt Mitte</p>
+<p id="identc">Ingenieurb&uuml;ro Prof. Rauchfuss</p>
 <!-- <p align="right" >  -->
 
 <?php
