@@ -10,6 +10,11 @@
 <script type="text/javascript">
 
 		var dp_cal1,dp_cal2;
+
+// button handler
+$('#button').click(function() {
+    chart.exportChart();
+});
 	
 $(document).ready(function() {
 
@@ -17,11 +22,13 @@ $(document).ready(function() {
 
 var chart;
 var chartSize = Array();
-chartSize['height']=800; // Höhe des Gesamten Chart Bereichs
+chartSize['height']=770; // Höhe des Gesamten Chart Bereichs
 chartSize['width']=1300;       // Breite des Chartbereichs
 chartSize['chartHeight']=550;  // Höhe des inneren Charts
 chartSize['navigatorTop']=chartSize.chartHeight+20;  // Anfang des Navigators
 chartSize['legende']= chartSize.height - chartSize.chartHeight - 30;
+
+
 
 function drawLineChart(gets) {
 var numberOfValues = 0;
@@ -120,10 +127,11 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		    enabled: false
 		},
 	    title: {
-	    	text: "Max Beckmann Saal, Luxemburger Straße 10, 13353 Berlin"
+	    	text: "Kalenderwochen Vergleich"
+	    	
 	    },
 	    subtitle: {
-	    	text: "Kalenderwochen Vergleich"
+	    	text: "Max Beckmann Saal, Luxemburger Straße 10, 13353 Berlin"
 	    },
 	    xAxis: {
 	    	type: 'datetime',
@@ -153,10 +161,33 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
         	borderWidth: 2,
 	    	layout: 'horizontal',
 	    	verticalAlign: 'bottom',
-	    	itemMarginBottom: 30,
+	    	y: -10,
 	    	shadow: true,
 	    	
 	    },
+	    exporting: {
+            buttons: {
+                contextButton: {
+                    text: 'Drucken',
+                    menuItems: [{
+                        text: 'Export to PNG (small)',
+                        onclick: function() {
+                            this.exportChart({
+                                width: 250
+                            });
+                        }
+                    }, {
+                        text: 'Export to PNG (large)',
+                        onclick: function() {
+                            this.exportChart();
+                        },
+                        separator: false
+                    }]
+                },
+                
+            },
+            type: 'application/pdf'
+       },
 		tooltip: {
 			xDateFormat: '%d',
 			headerFormat: '',
@@ -225,6 +256,16 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
         })
         .add()
 */
+
+	Highcharts.setOptions({
+	lang: {
+		months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
+			'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+		weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+		downloadPDF: ['Download als PDF'],
+	}
+});
+
 }
 
 
@@ -346,4 +387,5 @@ function delmeter(id)
 
 </div>
 
+<button id="button">Export chart</button>
 
