@@ -1,4 +1,4 @@
-<p><img id="logojpg" src="<?php echo base_url() ?>/img/mitte.png" alt="Logo Berlin Mitte" width="65px" height="96px" /></p>
+<p><img id="logojpg" src="<?php echo base_url() ?>/img/mitte.png" alt="Logo Berlin Mitte" width="54px" height="80px" /></p>
 	
 <h2>Max-Beckmann-Saal, Luxemburger Stra&szlig;e 20, 13353 Berlin</h2>
 <p id="identv">Berlin Bezirksamt Mitte</p>
