@@ -4,6 +4,7 @@
 <script type="text/javascript" src="<?php echo $url?>epoch_classes.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/highstock.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/modules/exporting.js"></script>
+<script type="text/javascript" src="<?php echo $url?>globalChartingProperties.js"></script>
 		
 <script type="text/javascript">
 	
@@ -28,20 +29,19 @@ function drawLineChart(id,from,to) {
 		chart = new Highcharts.StockChart({
 		    chart: {
 		        renderTo: 'container',
-		        height:550,
-		        width: 1300,
+		        height:chartSize.height,
+		        width: chartSize.width,
+		        borderWidth: 2,
 		    },
-		    rangeSelector: {
-		        selected: 0,
-		        enabled: false
-		    },
+		    
+		    
 			type: 'line',
 		    title: {
 		        text: MeterDaten.Name
 		    },
-		    subtitle: {
-                text: MeterDaten.Description
-            },
+	    	subtitle: {
+	    		text: "Max Beckmann Saal, Luxemburger Straße 10, 13353 Berlin"
+	    	},
             xAxis: {
                 type: 'datetime',
 				//maxZoom: 14 * 24 * 3600000, // fourteen days
@@ -62,33 +62,16 @@ function drawLineChart(id,from,to) {
 			tooltip: {
 				shared: true
 			},
-			credits: {
-            	enabled: false
-        	}, 
-            plotOptions: {
-                spline: {
-                	dataGrouping: {
-                    	enabled: false
-                	},
-                     marker: {
-						enabled: false,
-						states: {
-							hover: {
-								enabled: true,
-								radius: 5
-							}
-						}
-					} 
-                }
-            },
-             exporting: {
-        		enabled: true
-    		},
+			credits: credits,
+			rangeSelector: rangeSelector,
+            plotOptions: plotOptions,
+            exporting: exporting,
     		navigation: {
      		   buttonOptions: {
             		enabled: true
         		}
     		},
+    		exporting: exporting,
 		    series: [{
 		    	
 		        name: MeterDaten.Name+" ("+MeterDaten.Unit+")",
@@ -151,7 +134,11 @@ function drawLineChart(id,from,to) {
 	            width: '200px'
 	        })
 	        .add()
-	
+        
+	Highcharts.setOptions({
+		lang: lang
+	});
+
 }
 
 

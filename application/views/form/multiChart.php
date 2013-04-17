@@ -4,6 +4,7 @@
 <script type="text/javascript" src="<?php echo $url?>epoch_classes.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/highstock.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/modules/exporting.js"></script>
+<script type="text/javascript" src="<?php echo $url?>globalChartingProperties.js"></script>
 
 		
 <script type="text/javascript">
@@ -61,26 +62,20 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	};
 	
 	chart = new Highcharts.StockChart({
-		chart: {
-	    	renderTo: 'container',
+	    chart: {
+			renderTo: 'container',
 	        type: 'spline',
-	        //inverted: false,
-	        width: 1300,
-	        height:550,
-	        style: {
-	        	margin: '0 auto'
-	        }
+	        height:chartSize.height,
+	        width: chartSize.width,
+	        borderWidth: 2,
 	    },
-	    
-		rangeSelector: {
-			selected: 0,
-		    enabled: false
-		},
+   
+		rangeSelector: rangeSelector,
 	    title: {
 	    	text: "Gesamtübersicht"
 	    },
 	    subtitle: {
-	    	text: ""
+	    	text: "Max Beckmann Saal, Luxemburger Straße 10, 13353 Berlin"
 	    },
 	    xAxis: {
 	    	type: 'datetime',
@@ -109,25 +104,9 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		tooltip: {
 			shared: true
 		},
-		credits: {
-            enabled: false
-        }, 
-	    plotOptions: {
-	    	spline: {
-	    		dataGrouping: {
-                    enabled: false
-                },
-	        	marker: {
-					enabled: false,
-					states: {
-						hover: {
-							enabled: true,
-							radius: 5
-						}
-					}
-				} 
-	        }
-	    },
+		credits: credits,
+	    plotOptions: plotOptions, 
+	    exporting: exporting,
         series: MeterValues(id,from,to)
 	});
 	
@@ -153,6 +132,10 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
             width: '200px'
         })
         .add()
+        
+		Highcharts.setOptions({
+		lang: lang
+	});        
 
 }
 

@@ -130,7 +130,23 @@ function drawLineChart(gets) {
 	            width: '200px'
 	        })
 	        .add()
-	
+	        
+		var pRx = chartSize.width -200;
+		var pRy = chartSize.height + offsetLegende-25; 	
+		chart.renderer.label("Ingenieurbüro Prof. Rauchfuss", pRx, pRy)
+	    	.attr({
+	        	//fill: colors[0],
+	            //stroke: 'black',
+	            'stroke-width': 2,
+	            //padding: 5,
+	            //r: 5
+	        })
+	        .css({
+	        	color: 'black',
+	            width: '210px'
+	        })
+	        .add()	
+		
 }
 
 

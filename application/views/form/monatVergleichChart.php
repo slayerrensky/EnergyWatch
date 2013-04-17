@@ -5,6 +5,7 @@
 <script type="text/javascript" src="<?php echo $url?>highstock/js/highstock.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/modules/exporting.js"></script>
 <script type="text/javascript" src="<?php echo $url?>kalenderwoche.js"></script>
+<script type="text/javascript" src="<?php echo $url?>globalChartingProperties.js"></script>
 
 		
 <script type="text/javascript">
@@ -16,18 +17,76 @@ $(document).ready(function() {
 });
 
 var chart;
-var chartSize = Array();
-chartSize['height']=740;       // Höhe des Gesamten Chart Bereichs
-chartSize['width']=1300;       // Breite des Chartbereichs
-chartSize['chartHeight']=550;  // Höhe des inneren Charts
-chartSize['navigatorTop']=chartSize.chartHeight;  // Anfang des Navigators
-chartSize['legende']= chartSize.height - chartSize.chartHeight ;
 
 function drawLineChart(gets) {
 var numberOfValues = 0;
 var offsetLegende = parseInt((gets.length - 1)/4)*80 ;
 
 $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.gif" alt="Loading"></p>');
+
+	chart = new Highcharts.StockChart({
+		chart: {
+	    	renderTo: 'container',
+	        type: 'spline',
+	        //inverted: false,
+	        width: chartSize.width,
+	        height: chartSize.height + offsetLegende,
+	        borderWidth: 2,
+	        marginBottom: chartSize.legende + offsetLegende,
+	        style: {
+	        	margin: '0 auto'
+	        }
+	    },
+	    navigator: {
+	    	top: chartSize.navigatorTop,
+	    	xAxis: {
+	    		dateTimeLabelFormats: { // don't display the dummy year
+                hour: '%e. %H:%M',
+                day: '%e',
+                month: '%e. %H:%M',
+                year: '%Y'
+            	}
+          },
+	    },
+	    title: {
+	    	text: "Monats Vergleich"
+	    },
+	    subtitle: {
+	    	text: "Max Beckmann Saal, Luxemburger Straße 10, 13353 Berlin"
+	    },
+	    xAxis: {
+	    	type: 'datetime',
+			//maxZoom: 14 * 24 * 3600000, // fourteen days
+	        title: {
+	        	enabled: true,
+	            text: '<br/>Datum / Uhrzeit'
+	        },
+	        ordinal: false,
+	        dateTimeLabelFormats: { // don't display the dummy year
+                    hour: '%e. %H:%M',
+                    day: '<br/>%e.Tag',
+                    month: '%e. %H:%M',
+                    year: '%Y'
+            }
+	    },
+	    yAxis: {
+	    	title: {
+	        	text: ""
+	        },
+	        lineWidth: 2
+	    },
+	    rangeSelector: rangeSelector, 
+	    legend: legend,
+	    exporting: exporting,
+		tooltip: tooltip,
+		credits: credits,
+	    plotOptions: plotOptions,
+        series: MeterValues(gets)
+	});
+		
+	Highcharts.setOptions({
+		lang: lang
+	});
 
 	function MeterValues(gets){
 		var series = new Array();
@@ -72,7 +131,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		        	var arbeit = '';
 		        	if (gets[i].arbeit>0 )
 		        	{
-		        		arbeit ='<br>Arbeit: '+ runde(gets[i].arbeit,3)+' '+ gets[i].Unit+'/h';
+		        		arbeit ='<br>Arbeit: '+ runde(gets[i].arbeit,3)+' '+ gets[i].Unit+'h';
 		        	}
 		        			        	
 		        	return MeterDaten.Name+" ("+MeterDaten.Unit+"), " + gets[i].monat + ". " + gets[i].jahr +
@@ -88,123 +147,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 		//alert(numberOfValues);
 		return series;
 	};
-	
-	chart = new Highcharts.StockChart({
-		chart: {
-	    	renderTo: 'container',
-	        type: 'spline',
-	        //inverted: false,
-	        width: chartSize.width,
-	        height: chartSize.height + offsetLegende,
-	        borderWidth: 2,
-	        marginBottom: chartSize.legende + offsetLegende,
-	        style: {
-	        	margin: '0 auto'
-	        }
-	    },
-	    navigator: {
-	    	top: chartSize.navigatorTop,
-	    	xAxis: {
-	    		dateTimeLabelFormats: { // don't display the dummy year
-                hour: '%e. %H:%M',
-                day: '%e',
-                month: '%e. %H:%M',
-                year: '%Y'
-            	}
-          },
-	    },
-		rangeSelector: {
-			selected: 0,
-		    enabled: false
-		},
-	    title: {
-	    	text: "Monats Vergleich"
-	    },
-	    subtitle: {
-	    	text: ""
-	    },
-	    xAxis: {
-	    	type: 'datetime',
-			//maxZoom: 14 * 24 * 3600000, // fourteen days
-	        title: {
-	        	enabled: true,
-	            text: '<br/>Datum / Uhrzeit'
-	        },
-	        ordinal: false,
-	        dateTimeLabelFormats: { // don't display the dummy year
-                    hour: '%e. %H:%M',
-                    day: '<br/>%e.Tag',
-                    month: '%e. %H:%M',
-                    year: '%Y'
-            }
-	    },
-	    yAxis: {
-	    	title: {
-	        	text: ""
-	        },
-	        lineWidth: 2
-	    },
-	    legend: {
-	    	enabled: true,
-        	borderColor: 'black',
-        	borderWidth: 2,
-	    	layout: 'horizontal',
-	    	verticalAlign: 'bottom',
-	    	shadow: true
-	    },
-		tooltip: {
-			xDateFormat: '%d',
-			headerFormat: '',
-			shared: true,
-			enabled: false
-		},
-		credits: {
-            enabled: false
-        }, 
-	    plotOptions: {
-	    	spline: {
-	    		dataGrouping: {
-                    enabled: false
-                },
-	        	marker: {
-					enabled: false,
-					states: {
-						hover: {
-							enabled: false,
-							radius: 5
-						}
-					}
-				} 
-	        }
-	    },
-        series: MeterValues(gets)
-	});
-	
-	
-/*	var legegndx = chart.legend.group.translateX;
-	var pRx = legegndx; //chart.chartWidth - 210;
-    var pRy = 70 + (15*gets.length);
-    
-    var anzeigeText= "Arbeit: <br>"
-    //var Mma = getJson("<?php //echo base_url(); ?>index.php/data/getAreaValuesmma/"+id+"/"+from+"/"+to);
-	for (var i=0;i< gets.length; i++)
-	{
-		anzeigeText+= gets[i].Name +' ' + gets[i].monat + ' ' + gets[i].jahr + ': '+ runde(gets[i].arbeit,3) +' '+gets[i].Unit+'h<br>';
-	}
-	chart.renderer.label(anzeigeText, pRx+5, pRy-5)
-    	.attr({
-        	//fill: colors[0],
-            stroke: 'black',
-            'stroke-width': 2,
-            padding: 5,
-            r: 5
-        })
-        .css({
-        	color: 'black',
-            width: '200px'
-        })
-        .add()
-*/	
+
 
 }
 

@@ -5,6 +5,7 @@
 <script type="text/javascript" src="<?php echo $url?>highstock/js/highstock.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/modules/exporting.js"></script>
 <script type="text/javascript" src="<?php echo $url?>kalenderwoche.js"></script>
+<script type="text/javascript" src="<?php echo $url?>globalChartingProperties.js"></script>
 
 		
 <script type="text/javascript">
@@ -21,13 +22,6 @@ $(document).ready(function() {
 });
 
 var chart;
-var chartSize = Array();
-chartSize['height']=770; // Höhe des Gesamten Chart Bereichs
-chartSize['width']=1300;       // Breite des Chartbereichs
-chartSize['chartHeight']=550;  // Höhe des inneren Charts
-chartSize['navigatorTop']=chartSize.chartHeight+20;  // Anfang des Navigators
-chartSize['legende']= chartSize.height - chartSize.chartHeight - 30;
-
 
 
 function drawLineChart(gets) {
@@ -38,64 +32,6 @@ var offsetLegende = parseInt((gets.length - 1)/4)*70 ;
 
 $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.gif" alt="Loading"></p>');
 
-	function MeterValues(gets){
-		var series = new Array();
-		for (var i=0;i< gets.length; i++)
-		{
-			var MeterDaten = getJson("<?php echo base_url(); ?>index.php/data/getDataFromMeter/"+gets[i].ID);
-			series.push({
-		     	tooltip: {
-		    		valueDecimals: 3
-		       	},
-		     	
-		        data: (function() {
-		            var data = [];
-		            var daten = getValuesOffsetKw(gets[i].ID,gets[i].timeVon,gets[i].timeBis,"<?php echo base_url(); ?>");
-		           	
-		           	gets[i]["Unit"]=MeterDaten.Unit;
-					gets[i]["Name"]=MeterDaten.Name;
-		            gets[i]["Mma"]= getJson("<?php echo base_url(); ?>index.php/data/getAreaValuesmma/"+gets[i].ID+"/"+gets[i].timeVon+"/"+gets[i].timeBis); 
-							     
-		            gets[i]["arbeit"]=0;
-		            for (var k=0,l = daten.length; k<l; k++)
-		            {
-		            	
-		            	if (gets[i]["Unit"].indexOf('W') >= 0) //Wenn W für Watt vor kommt dann rechne Arbeit 
-		            	{
-		            		gets[i].arbeit+=daten[k].Value/12;
-		            	}
-		            	
-			          	data.push({
-				            x: daten[k].TimeStamp,
-			    	        y: daten[k].Value
-			            });
-			        }
-			        numberOfValues += daten.length;
-			        return data;
-		        })(),
-		        // Legende
-		        name: (function() {
-		        	var arbeit = ''; // Leer wenn keine Arbeit, ansonsten wird es im im überschreiben
-		        	if (gets[i].arbeit>0 )
-		        	{
-		        		arbeit ='<br>Arbeit  : '+ runde(gets[i].arbeit,3)+' '+ gets[i].Unit+'/h';
-		        	}
-		        			        	
-		        	return MeterDaten.Name+" ("+MeterDaten.Unit+"), KW " + gets[i].kw + " " + gets[i].jahr +
-		        	arbeit +
-		        	'<br>Maximum: '+ runde(gets[i].Mma[0].Max,3) + ' ' + gets[i].Unit+
-		        	'<br>Mittelwert: '+ runde(gets[i].Mma[0].Avg,3) + ' ' + gets[i].Unit+
-		        	'<br>Minimum : '+ runde(gets[i].Mma[0].Min,3) + ' ' + gets[i].Unit;
-		        	
-		        	})(), 
-		        turboThreshold: numberOfValues,
-		       
-			});
-		}
-		//alert(numberOfValues);
-		return series;
-	};
-	
 	chart = new Highcharts.StockChart({
 		chart: {
 	    	renderTo: 'container',
@@ -106,7 +42,7 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	        borderWidth: 2,
 	        marginBottom: chartSize.legende + offsetLegende,
 	        style: {
-	        	margin: '0 auto'
+	        	margin: '10 auto'
 	        }
 	    },
 	    navigator: {
@@ -121,11 +57,6 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	            }
 	    	},
 	    },
-	    
-		rangeSelector: {
-			selected: 0,
-		    enabled: false
-		},
 	    title: {
 	    	text: "Kalenderwochen Vergleich"
 	    	
@@ -155,69 +86,19 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
 	        },
 	        lineWidth: 2
 	    },
-	    legend: {
-	    	enabled: true,
-        	borderColor: 'black',
-        	borderWidth: 2,
-	    	layout: 'horizontal',
-	    	verticalAlign: 'bottom',
-	    	y: -10,
-	    	shadow: true,
-	    	
-	    },
-	    exporting: {
-            buttons: {
-                contextButton: {
-                    text: 'Drucken',
-                    menuItems: [{
-                        text: 'Export to PNG (small)',
-                        onclick: function() {
-                            this.exportChart({
-                                width: 250
-                            });
-                        }
-                    }, {
-                        text: 'Export to PNG (large)',
-                        onclick: function() {
-                            this.exportChart();
-                        },
-                        separator: false
-                    }]
-                },
-                
-            },
-            type: 'application/pdf'
-       },
-		tooltip: {
-			xDateFormat: '%d',
-			headerFormat: '',
-			shared: true,
-			enabled: false
-		},
-		credits: {
-            enabled: false
-        }, 
-	    plotOptions: {
-	    	spline: {
-	    		marker: {
-					enabled: false,
-					states: {
-						hover: {
-							enabled: false,
-							radius: 1
-						}
-					}
-				},
-	    		dataGrouping: {
-                    enabled: false
-                }
-	        }
-	    },
+	    rangeSelector: rangeSelector, 
+	    legend: legend,
+	    exporting: exporting,
+		tooltip: tooltip,
+		credits: credits,
+	    plotOptions: plotOptions,
         series: MeterValues(gets)
 	});
-		
+
+/*		
 	var pRx = chartSize.width -200;
 	var pRy = chartSize.height + offsetLegende-25; 	
+
 	chart.renderer.label("Ingenieurbüro Prof. Rauchfuss", pRx, pRy)
     	.attr({
         	//fill: colors[0],
@@ -231,42 +112,70 @@ $("#container").append('<p><img src="<?php echo base_url(); ?>/img/ajax-loader.g
             width: '210px'
         })
         .add()	
-		
-/*	var legegndx = chart.legend.group.translateX;
-	var pRx = 10; //chart.chartWidth - 210;
-    var pRy = chartSize.mmaTop + (15*gets.length);
-    
-    var anzeigeText= "Arbeit: <br>"
-    //var Mma = getJson("<?php //echo base_url(); ?>index.php/data/getAreaValuesmma/"+id+"/"+from+"/"+to);
+*/		
+	Highcharts.setOptions({
+		lang: lang
+	});
+	
+	function MeterValues(gets){
+	var series = new Array();
 	for (var i=0;i< gets.length; i++)
 	{
-		anzeigeText+= gets[i].Name + ' '+ gets[i].kw +'KW : '+ runde(gets[i].arbeit,3) +' '+gets[i].Unit+'h<br>';
+		var MeterDaten = getJson("<?php echo base_url(); ?>index.php/data/getDataFromMeter/"+gets[i].ID);
+		series.push({
+	     	tooltip: {
+	    		valueDecimals: 3
+	       	},
+	     	
+	        data: (function() {
+	            var data = [];
+	            var daten = getValuesOffsetKw(gets[i].ID,gets[i].timeVon,gets[i].timeBis,"<?php echo base_url(); ?>");
+	           	
+	           	gets[i]["Unit"]=MeterDaten.Unit;
+				gets[i]["Name"]=MeterDaten.Name;
+	            gets[i]["Mma"]= getJson("<?php echo base_url(); ?>index.php/data/getAreaValuesmma/"+gets[i].ID+"/"+gets[i].timeVon+"/"+gets[i].timeBis); 
+						     
+	            gets[i]["arbeit"]=0;
+	            for (var k=0,l = daten.length; k<l; k++)
+	            {
+	            	
+	            	if (gets[i]["Unit"].indexOf('W') >= 0) //Wenn W für Watt vor kommt dann rechne Arbeit 
+	            	{
+	            		gets[i].arbeit+=daten[k].Value/12;
+	            	}
+	            	
+		          	data.push({
+			            x: daten[k].TimeStamp,
+		    	        y: daten[k].Value
+		            });
+		        }
+		        numberOfValues += daten.length;
+		        return data;
+	        })(),
+	        // Legende
+	        name: (function() {
+	        	var arbeit = ''; // Leer wenn keine Arbeit, ansonsten wird es im im überschreiben
+	        	if (gets[i].arbeit>0 )
+	        	{
+	        		arbeit ='<br>Arbeit  : '+ runde(gets[i].arbeit,3)+' '+ gets[i].Unit+'h';
+	        	}
+	        			        	
+	        	return MeterDaten.Name+" ("+MeterDaten.Unit+"), KW " + gets[i].kw + " " + gets[i].jahr +
+	        	arbeit +
+	        	'<br>Maximum: '+ runde(gets[i].Mma[0].Max,3) + ' ' + gets[i].Unit+
+	        	'<br>Mittelwert: '+ runde(gets[i].Mma[0].Avg,3) + ' ' + gets[i].Unit+
+	        	'<br>Minimum : '+ runde(gets[i].Mma[0].Min,3) + ' ' + gets[i].Unit;
+	        	
+	        	})(), 
+	        turboThreshold: numberOfValues,
+	       
+		});
 	}
-	chart.renderer.label(anzeigeText, pRx+5, pRy-5)
-    	.attr({
-        	//fill: colors[0],
-            stroke: 'black',
-            'stroke-width': 2,
-            padding: 5,
-            r: 5
-        })
-        .css({
-        	color: 'black',
-            width: '210px'
-        })
-        .add()
-*/
-
-	Highcharts.setOptions({
-	lang: {
-		months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
-			'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-		weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-		downloadPDF: ['Download als PDF'],
-	}
-});
-
+	//alert(numberOfValues);
+	return series;
+};
 }
+
 
 
 function addItem()
@@ -386,6 +295,3 @@ function delmeter(id)
 <div id="container">
 
 </div>
-
-<button id="button">Export chart</button>
-
