@@ -135,3 +135,8 @@
 	float:left;
 	margin-right:1px;
 }
+
+#calendarDiv tr:hover
+{
+	background-color: black;
+}
