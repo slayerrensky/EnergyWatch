@@ -1,10 +1,12 @@
 <?php $url = base_url() . 'js/'; ?>
 <script type="text/javascript" src="<?php echo $url?>jquery-1.8.3.js"></script>
 <script type="text/javascript" src="<?php echo $url?>jquery-ui.js"></script>
-<script type="text/javascript" src="<?php echo $url?>epoch_classes.js"></script>
+<!-- <script type="text/javascript" src="<?php echo $url?>epoch_classes.js"></script> -->
 <script type="text/javascript" src="<?php echo $url?>highstock/js/highstock.js"></script>
 <script type="text/javascript" src="<?php echo $url?>highstock/js/modules/exporting.js"></script>
 <script type="text/javascript" src="<?php echo $url?>globalChartingProperties.js"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo $url?>dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css" media="screen"></LINK>
+<script type="text/javascript" src="<?php echo $url?>dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js"></script>
 
 		
 <script type="text/javascript">
@@ -13,8 +15,8 @@
 	
 $(document).ready(function() {
   //addItem();
-  dp_cal1 = new Epoch('epoch_popup','popup',document.getElementById('datevon'));
-  dp_cal2 = new Epoch('epoch_popup','popup',document.getElementById('datebis'));
+  //dp_cal1 = new Epoch('epoch_popup','popup',document.getElementById('datevon'));
+  //dp_cal2 = new Epoch('epoch_popup','popup',document.getElementById('datebis'));
 });
 
 var chart;
@@ -210,9 +212,9 @@ function delmeter(id)
 	<form name="hinzufügen">
 			<!-- <input type="button" name="Hinzufuegen" value="Hinzuf&uuml;gen" onclick="addMeterInView()" /> -->
 			Datum: von
-			<input type="text" id="datevon" value=""  />
+			<input type="text" id="datevon" value="" onclick="displayCalendar(document.forms[0].datevon,'dd.mm.yyyy',this)"/>
 			bis
-			<input type="text" id="datebis" value="" />
+			<input type="text" id="datebis" value="" onclick="displayCalendar(document.forms[0].datebis,'dd.mm.yyyy',this)"/>
 			<input type="button" name="Anzeigen" value="Anzeigen" onclick="drawChart()"/>
 	</form>
 </div>		
