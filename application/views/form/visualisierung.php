@@ -7,7 +7,9 @@
 <script type="text/javascript" src="<?php echo $url?>globalChartingProperties.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo $url?>dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css" media="screen"></LINK>
 <script type="text/javascript" src="<?php echo $url?>dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js"></script>
-		
+<script type="text/javascript">
+pathToImages = "<?php echo $url?>dhtmlgoodies_calendar/images/";
+</script>		
 <script type="text/javascript">
 	
 	var dp_cal1,dp_cal2;

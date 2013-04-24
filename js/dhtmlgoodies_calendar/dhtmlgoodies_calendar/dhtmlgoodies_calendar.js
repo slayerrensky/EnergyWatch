@@ -87,7 +87,7 @@ switch(languageCode){
 		var todayString = '';
 		break;
 	case "ge":	/* German */
-		var monthArray = ['Januar','Februar','M�rz','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+		var monthArray = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 		var monthArrayShort = ['Jan','Feb','Mar','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
 		var dayArray = ['Mon','Die','Mit','Don','Fre','Sam','Son'];
 		var weekString = 'Woche';

@@ -136,7 +136,7 @@
 	margin-right:1px;
 }
 
-#calendarDiv tr:hover
+#calendarDiv td:hover
 {
-	background-color: black;
+	background-color: #DFDFDF;
 }
