@@ -82,6 +82,7 @@ class data extends CI_Controller {
 		}
 	}
 	
+
 	/*
 	 * $UserID 		-(int) Gibt an für welchen User der Zähler angelegt wird
 	 * $Name		-(String) Name für den Meter
